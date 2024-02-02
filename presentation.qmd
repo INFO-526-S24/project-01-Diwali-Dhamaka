@@ -49,11 +49,14 @@ knitr::opts_chunk$set(
 # Load data here
 df <- read.csv(
   'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv')
-df <- df[-which(is.na(df$Amount)),]
-list(unique(df$Product_Category))
 
+# Remove NA values
+df <- df[-which(is.na(df$Amount)),]
+
+# Modify dataset for Q1 analysis
 df.Q1 <- df |>
   mutate(
+    # Refactorizes the product category based on similarity between products
     Product_Category = case_when(
      Product_Category %in% c("Footwear & Shoes") ~ "Clothing & Apparel",
      Product_Category %in% c("Books") ~ "Entertainment",
@@ -68,19 +71,28 @@ df.Q1 <- df |>
      Product_Category %in% c("Stationery") ~ "Office",
      Product_Category %in% c("Veterinary") ~ "Pet Care",
      TRUE ~ Product_Category
+    ),
+    
+    # Refactorizes the marital status to detail the meaning(Kaggle)
+    Marital_Status = case_when(
+      Marital_Status %in% 0 ~ "Married",
+      Marital_Status %in% 1 ~ "Single"
     )
   )
 
-list(unique(df.Q1$Product_Category))
-
+# Refactorizes the product category to sort the groups alphabetically
 df.Q1$Product_Category <- as.factor(df.Q1$Product_Category)
 df.Q1$Product_Category <- factor(df.Q1$Product_Category, levels = rev(levels(df.Q1$Product_Category)))
 
+# Bar plot showing the number of customers for product category across gender
+# and marital status
 ggplot(data = df.Q1, aes(y = Product_Category, fill = Gender)) +
-  geom_bar() +
-  # geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+  geom_bar(position = "dodge") +
   scale_fill_manual(values = c("pink", "lightblue")) +
+  # Reorder legend to match the order of the bar plot
+  guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle("Total Count of Sale Type") +
+  facet_wrap(~Marital_Status, ncol = 1) +
   ylab("Product Category") +
   xlab("Counts")
 ```
