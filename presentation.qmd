@@ -21,7 +21,8 @@ execute:
 #| include: false
 
 # Load packages here
-pacman::p_load(tidymodels,
+pacman::p_load(dplyr,
+               tidymodels,
                tidyverse)
 
 ```
@@ -46,10 +47,42 @@ knitr::opts_chunk$set(
 #| label: load-data
 #| include: false
 # Load data here
-data(mtcars)
-mtcars$speed <- mtcars$hp / mtcars$wt
+df <- read.csv(
+  'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv')
+df <- df[-which(is.na(df$Amount)),]
+list(unique(df$Product_Category))
 
-data("penguins")
+df.Q1 <- df |>
+  mutate(
+    Product_Category = case_when(
+     Product_Category %in% c("Footwear & Shoes") ~ "Clothing & Apparel",
+     Product_Category %in% c("Books") ~ "Entertainment",
+     Product_Category %in% c("Electronics & Gadgets") ~ "Entertainment",
+     Product_Category %in% c("Games & Toys") ~ "Entertainment",
+     Product_Category %in% c("Sports Products") ~ "Entertainment",
+     Product_Category %in% c("Decor") ~ "Home",
+     Product_Category %in% c("Furniture") ~ "Home",
+     Product_Category %in% c("Hand & Power Tools") ~ "Home",
+     Product_Category %in% c("Household items") ~ "Home",
+     Product_Category %in% c("Tupperware") ~ "Home",
+     Product_Category %in% c("Stationery") ~ "Office",
+     Product_Category %in% c("Veterinary") ~ "Pet Care",
+     TRUE ~ Product_Category
+    )
+  )
+
+list(unique(df.Q1$Product_Category))
+
+df.Q1$Product_Category <- as.factor(df.Q1$Product_Category)
+df.Q1$Product_Category <- factor(df.Q1$Product_Category, levels = rev(levels(df.Q1$Product_Category)))
+
+ggplot(data = df.Q1, aes(y = Product_Category, fill = Gender)) +
+  geom_bar() +
+  # geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+  scale_fill_manual(values = c("pink", "lightblue")) +
+  ggtitle("Total Count of Sale Type") +
+  ylab("Product Category") +
+  xlab("Counts")
 ```
 
 # Using Quarto for presentations
@@ -160,6 +193,6 @@ Limitations:
 
 ## Feeling adventurous?
 
--   You are welcomed to use the default styling of the slides. In fact, that\'s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+-   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
 
 -   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
