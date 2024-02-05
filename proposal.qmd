@@ -16,16 +16,48 @@ library(tidyverse)
 ```{r}
 #| label: load-dataset
 #| message: false
+# Load data here
+df <- read.csv(
+  'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv')
+
+str(df)
 ```
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
+Diwali stands as a paramount cultural festival celebrated fervently by diverse
+communities worldwide, and many sales are involved as part of the festivites. As
+a topic of interest, it is worth looking at the demographics regarding sales and
+what products are popular. The Diwali dataset comes from TidyTuesday 2023 and
+has 13 factors and 11251 observations. Variables include the following:
 
-Make sure to load the data and use inline code for some of this information.
+User_ID
+Cust_name
+Product_ID
+Gender
+Age Group
+Age
+MArital_Status
+State
+Zone
+Occuptation
+Product_Category
+Orders
+Amount
 
 ## Questions
 
-The two questions you want to answer.
+Q1: For each product category, what is the largest customer base based on gender
+and marital status.
+
+Q2: How much does a customer spend given their gender and age group.
 
 ## Analysis plan
 
--   A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+Q1: Transform the Product_Category based on commonality of certain categories
+(ie pet service and veterinary). Marital status is recoded such that 0 is
+married and 1 is single. Generate bar plot the product category with dodge
+position based on gender. Add a facet wrap based on marital status.
+
+Q2: Transform the data by grouping the observations by customer ID and sum the 
+spending amount. Afterwards we will generate a boxplot using the amount as the
+response variable. The x-axis will be the age group. The gender could be used
+as either a facet wrap or use the dodge position. This will be determined later.
