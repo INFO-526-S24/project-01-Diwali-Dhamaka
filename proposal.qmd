@@ -1,5 +1,5 @@
 ---
-title: "Proposal title"
+title: "Diwali Sales Trend Analysis"
 subtitle: "Proposal"
 format: html
 editor: visual
@@ -7,57 +7,155 @@ editor: visual
 
 ```{r}
 #| label: load-pkgs
+#| echo: false
 #| message: false
-library(tidyverse)
+#| warning: false
+
+# Load packages
+pacman::p_load(kableExtra)
 ```
 
-## Dataset
+## Introduction
+Diwali stands as a paramount cultural festival celebrated by various Indian
+religions. An effect of the festivities is that the festival period is also a
+period of economic activity. Many would compare the event to the Christmas
+shopping period.
 
+## Why the Diwali dataset?
+As a topic of interest, many businesses would find it worthwile to look into the
+sales data to develop business strategies to maximize revenue based on patterns
+found through data analysis.
+
+## Analysis Goals
+Discover customer purchase patterns based on Indian states' sale transaction
+details such as customer demographics and products purchased.
+
+## Dataset
 ```{r}
 #| label: load-dataset
 #| message: false
-# Load data here
-df <- read.csv(
-  'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv')
-
-str(df)
+# Load Diwali dataset
+diwali_sales <- read.csv("data/diwali_sales_data.csv")
 ```
 
-Diwali stands as a paramount cultural festival celebrated fervently by diverse
-communities worldwide, and many sales are involved as part of the festivites. As
-a topic of interest, it is worth looking at the demographics regarding sales and
-what products are popular. The Diwali dataset comes from TidyTuesday 2023 and
-has 13 factors and 11251 observations. Variables include the following:
+The diwali_sales_data.csv is a dataset sourced from the 2023 TidyTuesday data
+repository using the following link:
 
-User_ID
-Cust_name
-Product_ID
-Gender
-Age Group
-Age
-MArital_Status
-State
-Zone
-Occuptation
-Product_Category
-Orders
-Amount
+<a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14">Diwali Sales Repository</a>
+
+The .csv spans multiple years and contains 13 variables and 11251 transactions.
+Several transactions are tied to the same customer. Of the transactions, 12
+transactions did not have information regarding the sale price of the
+transaction and will be excluded from the data.
+
+-Nine variables detail customer identification and demographics.
+
+-Two variables identify the type of product sold in a given transaction.
+
+-Two variables detail the size of the transaction.
+
+A more in depth description of the variables can be seen in the following table:
+
+```{r}
+#| label: dataset-table
+#| echo: false
+#| message: false
+# Load Diwali dataset
+diwali_sales <- read.csv("data/diwali_sales_data.csv")
+
+# Variable type
+diwali_class <- c("Double", "Character", "Character", "Character", "Character",
+                  "Double", "Double", "Character", "Character", "Character",
+                  "Character", "Double", "Double")
+
+# Variable Description
+diwali_desc <- c("User ID number",
+                 "Customer name",
+                 "Product ID number",
+                 "Gender (e.g. Male, Female)",
+                 "Age group",
+                 "Age",
+                 "Marital status (e.g. Married, Single)",
+                 "State",
+                 "Geographic zone",
+                 "Occupation",
+                 "Category of the product",
+                 "Number of orders",
+                 "Indian rupees spent by the customer")
+
+# Generate summary values
+diwali_values <- c("Seven digit unique number",
+                   "Name",
+                   "Product Code",
+                   "F/M",
+                   "0-17, 18-25, 26-35, 36-45, 46-50, 51-55, 55+",
+                   "12-92",
+                   "0/1 recoded as Single/Married",
+                   "16 states",
+                   "Northern, Southern, Eastern, Western, Central",
+                   "15 professions",
+                   "18 product categories",
+                   "1-4",
+                   "188-23952")
+
+# Generate table of variables
+table_1 <- as.table(cbind(colnames(diwali_sales), diwali_class, diwali_desc,
+                          diwali_values))
+colnames(table_1) <- c("Variable", "Class", "Description", "Values")
+row.names(table_1) <- seq(1:13)
+
+# Generate a nice table with kable
+my_table <- kable(table_1, "html") %>%
+  kable_styling(full_width = FALSE)
+
+# Display the table
+my_table
+
+# Summary checks
+# summary(diwali_sales[which(diwali_sales$Age.Group == "0-17"), "Marital_Status"])
+# summary(diwali_sales[which(diwali_sales$Age == 12), "Marital_Status"])
+# unique(diwali_sales$State)
+# unique(diwali_sales$Zone)
+```
+
+Of these variables, `User_ID`, `Gender`, `Age.Group`, `Age`, `Marital_Status`,
+`Product_Category`, and `Amount` will be used for our analysis. `State` and
+`Zone` are under consideration for potential variables.
 
 ## Questions
+### Question 1
+For each `Product_Category`, what is the largest customer group based on
+`Gender` and `Marital_Status`?
 
-Q1: For each product category, what is the largest customer base based on gender
-and marital status.
+### Question 2
+What is the `Amount` a customer spends, given their demographics, such as
+`Gender` and `Age.Group`?
 
-Q2: How much does a customer spend given their gender and age group.
+## Analysis Plan
+### Question 1
+#### Dataset Transformation
+Transform the `Product_Category` based on commonality of certain categories
+(ie Pet Care and Veterinary). `Product_Category`went from 18 categories to 8.
 
-## Analysis plan
+`Marital_Status` is recoded such that 0 is Single and 1 is Married.
 
-Q1: Transform the Product_Category based on commonality of certain categories
-(ie pet service and veterinary). Marital status is recoded such that 0 is
-married and 1 is single. Generate bar plot the product category with dodge
-position based on gender. Add a facet wrap based on marital status.
+#### Planned Plot
+Generate a bar plot the `Product_Category` with dodge position based on
+`Gender` with an added facet wrap based on `Marital_Status`. `Product_Category`
+is set as the vertical axis. Inclusion of `Zone` and `State` variable will be
+determined later.
 
-Q2: Transform the data by grouping the observations by customer ID and sum the 
-spending amount. Afterwards we will generate a boxplot using the amount as the
-response variable. The x-axis will be the age group. The gender could be used
-as either a facet wrap or use the dodge position. This will be determined later.
+### Question 2
+#### Dataset Transformation
+Transform the data by grouping the observations by `User_ID` and sum `Amount`.
+
+#### Planned Plot
+Afterwards we will generate a boxplot using `Amount` as the response variable.
+The horizontal-axis will be the `Age.Group` or `Age`. The `Gender` could be
+represented on the plot with either a facet wrap or the dodge position.
+This will be determined later.
+
+## Citations
+Diwali Sales Repository:
+
+<a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14">https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14</a>
