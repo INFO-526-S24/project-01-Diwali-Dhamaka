@@ -1,0 +1,163 @@
+[
+  {
+    "objectID": "proposal.html",
+    "href": "proposal.html",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "",
+    "text": "Diwali stands as a paramount cultural festival celebrated by various Indian religions. An effect of the festivities is that the festival period is also a period of economic activity. Many would compare the event to the Christmas shopping period."
+  },
+  {
+    "objectID": "proposal.html#introduction",
+    "href": "proposal.html#introduction",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "",
+    "text": "Diwali stands as a paramount cultural festival celebrated by various Indian religions. An effect of the festivities is that the festival period is also a period of economic activity. Many would compare the event to the Christmas shopping period."
+  },
+  {
+    "objectID": "proposal.html#why-the-diwali-dataset",
+    "href": "proposal.html#why-the-diwali-dataset",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Why the Diwali dataset?",
+    "text": "Why the Diwali dataset?\nAs a topic of interest, many businesses would find it worthwile to look into the sales data to develop business strategies to maximize revenue based on patterns found through data analysis."
+  },
+  {
+    "objectID": "proposal.html#analysis-goals",
+    "href": "proposal.html#analysis-goals",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Analysis Goals",
+    "text": "Analysis Goals\nDiscover customer purchase patterns based on Indian states’ sale transaction details such as customer demographics and products purchased."
+  },
+  {
+    "objectID": "proposal.html#dataset",
+    "href": "proposal.html#dataset",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Dataset",
+    "text": "Dataset\n\n# Load Diwali dataset\ndiwali_sales &lt;- read.csv(\"data/diwali_sales_data.csv\")\n\nThe diwali_sales_data.csv is a dataset sourced from the 2023 TidyTuesday data repository using the following link:\nDiwali Sales Repository\nThe .csv spans multiple years and contains 13 variables and 11251 transactions. Several transactions are tied to the same customer. Of the transactions, 12 transactions did not have information regarding the sale price of the transaction and will be excluded from the data.\n-Nine variables detail customer identification and demographics.\n-Two variables identify the type of product sold in a given transaction.\n-Two variables detail the size of the transaction.\nA more in depth description of the variables can be seen in the following table:\n\n\n\n\n\nVariable\nClass\nDescription\nValues\n\n\n\n\nUser_ID\nDouble\nUser ID number\nSeven digit unique number\n\n\nCust_name\nCharacter\nCustomer name\nName\n\n\nProduct_ID\nCharacter\nProduct ID number\nProduct Code\n\n\nGender\nCharacter\nGender (e.g. Male, Female)\nF/M\n\n\nAge.Group\nCharacter\nAge group\n0-17, 18-25, 26-35, 36-45, 46-50, 51-55, 55+\n\n\nAge\nDouble\nAge\n12-92\n\n\nMarital_Status\nDouble\nMarital status (e.g. Married, Single)\n0/1 recoded as Single/Married\n\n\nState\nCharacter\nState\n16 states\n\n\nZone\nCharacter\nGeographic zone\nNorthern, Southern, Eastern, Western, Central\n\n\nOccupation\nCharacter\nOccupation\n15 professions\n\n\nProduct_Category\nCharacter\nCategory of the product\n18 product categories\n\n\nOrders\nDouble\nNumber of orders\n1-4\n\n\nAmount\nDouble\nIndian rupees spent by the customer\n188-23952\n\n\n\n\n\n\n\nOf these variables, User_ID, Gender, Age.Group, Age, Marital_Status, Product_Category, and Amount will be used for our analysis. State and Zone are under consideration for potential variables."
+  },
+  {
+    "objectID": "proposal.html#questions",
+    "href": "proposal.html#questions",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Questions",
+    "text": "Questions\n\nQuestion 1\nFor each Product_Category, what is the largest customer group based on Gender and Marital_Status?\n\n\nQuestion 2\nWhat is the Amount a customer spends, given their demographics, such as Gender and Age.Group?"
+  },
+  {
+    "objectID": "proposal.html#analysis-plan",
+    "href": "proposal.html#analysis-plan",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Analysis Plan",
+    "text": "Analysis Plan\n\nQuestion 1\n\nDataset Transformation\nTransform the Product_Category based on commonality of certain categories (ie Pet Care and Veterinary). Product_Categorywent from 18 categories to 8.\nMarital_Status is recoded such that 0 is Single and 1 is Married.\n\n\nPlanned Plot\nGenerate a bar plot the Product_Category with dodge position based on Gender with an added facet wrap based on Marital_Status. Product_Category is set as the vertical axis. Inclusion of Zone and State variable will be determined later.\n\n\n\nQuestion 2\n\nDataset Transformation\nTransform the data by grouping the observations by User_ID and sum Amount.\n\n\nPlanned Plot\nAfterwards we will generate a boxplot using Amount as the response variable. The horizontal-axis will be the Age.Group or Age. The Gender could be represented on the plot with either a facet wrap or the dodge position. This will be determined later."
+  },
+  {
+    "objectID": "proposal.html#citations",
+    "href": "proposal.html#citations",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Citations",
+    "text": "Citations\nDiwali Sales Repository:\nhttps://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "",
+    "text": "Add project abstract here."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "",
+    "text": "Add project abstract here."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by [Diwali Dhamaka] For INFO 526 - Data Analysis and Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nPeter Yeh: 3rd year Ph.D. student in the Statistics and Data Science-Statistical Informatics GIDP program.\nTeam member 2: One sentence description of Team member 2 (e.g., year, major, etc.).\nTeam member 3: One sentence description of Team member 3 (e.g., year, major, etc.).\nTeam member 4: One sentence description of Team member 4 (e.g., year, major, etc.).\nTeam member 5: One sentence description of Team member 5 (e.g., year, major, etc.).\nTeam member 6: One sentence description of Team member 6 (e.g., year, major, etc.)."
+  },
+  {
+    "objectID": "data/README 2.html",
+    "href": "data/README 2.html",
+    "title": "Data",
+    "section": "",
+    "text": "[Dataset]: Description of the dataset"
+  },
+  {
+    "objectID": "data/README 2.html#variable-names-and-descriptions",
+    "href": "data/README 2.html#variable-names-and-descriptions",
+    "title": "Data",
+    "section": "Variable Names and Descriptions:",
+    "text": "Variable Names and Descriptions:\n\nvariable: Description"
+  },
+  {
+    "objectID": "data/README 2.html#data-types",
+    "href": "data/README 2.html#data-types",
+    "title": "Data",
+    "section": "Data Types:",
+    "text": "Data Types:\n\nColumn: data type"
+  },
+  {
+    "objectID": "presentation.html#quarto",
+    "href": "presentation.html#quarto",
+    "title": "Project title",
+    "section": "Quarto",
+    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
+  },
+  {
+    "objectID": "presentation.html#layouts",
+    "href": "presentation.html#layouts",
+    "title": "Project title",
+    "section": "Layouts",
+    "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\nAnd add footnotes"
+  },
+  {
+    "objectID": "presentation.html#code",
+    "href": "presentation.html#code",
+    "title": "Project title",
+    "section": "Code",
+    "text": "Code"
+  },
+  {
+    "objectID": "presentation.html#plots",
+    "href": "presentation.html#plots",
+    "title": "Project title",
+    "section": "Plots",
+    "text": "Plots"
+  },
+  {
+    "objectID": "presentation.html#plot-and-text",
+    "href": "presentation.html#plot-and-text",
+    "title": "Project title",
+    "section": "Plot and text",
+    "text": "Plot and text\n\n\n\nSome text\ngoes here"
+  },
+  {
+    "objectID": "presentation.html#tables",
+    "href": "presentation.html#tables",
+    "title": "Project title",
+    "section": "Tables",
+    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,"
+  },
+  {
+    "objectID": "presentation.html#images",
+    "href": "presentation.html#images",
+    "title": "Project title",
+    "section": "Images",
+    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
+  },
+  {
+    "objectID": "presentation.html#math-expressions",
+    "href": "presentation.html#math-expressions",
+    "title": "Project title",
+    "section": "Math Expressions",
+    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
+  },
+  {
+    "objectID": "presentation.html#feeling-adventurous",
+    "href": "presentation.html#feeling-adventurous",
+    "title": "Project title",
+    "section": "Feeling adventurous?",
+    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
+  }
+]
