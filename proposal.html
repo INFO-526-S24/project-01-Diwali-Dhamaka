@@ -160,6 +160,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-the-diwali-dataset" id="toc-why-the-diwali-dataset" class="nav-link" data-scroll-target="#why-the-diwali-dataset">Why the Diwali dataset?</a></li>
   <li><a href="#analysis-goals" id="toc-analysis-goals" class="nav-link" data-scroll-target="#analysis-goals">Analysis Goals</a></li>
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling">Data Wrangling</a>
+  <ul class="collapse">
+  <li><a href="#marital_status" id="toc-marital_status" class="nav-link" data-scroll-target="#marital_status"><code>Marital_Status</code>:</a></li>
+  <li><a href="#product_category" id="toc-product_category" class="nav-link" data-scroll-target="#product_category"><code>Product_Category</code></a></li>
+  <li><a href="#amount" id="toc-amount" class="nav-link" data-scroll-target="#amount"><code>Amount</code></a></li>
+  </ul></li>
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a>
   <ul class="collapse">
   <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
@@ -170,6 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#question-1-1" id="toc-question-1-1" class="nav-link" data-scroll-target="#question-1-1">Question 1</a></li>
   <li><a href="#question-2-1" id="toc-question-2-1" class="nav-link" data-scroll-target="#question-2-1">Question 2</a></li>
   </ul></li>
+  <li><a href="#timeline" id="toc-timeline" class="nav-link" data-scroll-target="#timeline">Timeline</a></li>
   <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations">Citations</a></li>
   </ul>
 </nav>
@@ -316,7 +323,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-<p>Of these variables, <code>User_ID</code>, <code>Gender</code>, <code>Age.Group</code>, <code>Age</code>, <code>Marital_Status</code>, <code>Product_Category</code>, and <code>Amount</code> will be used for our analysis. <code>State</code> and <code>Zone</code> are under consideration for potential variables.</p>
+<p><code>Gender</code> and <code>Marital_Status</code> are used as broad demographic subsets to see the number of transactions made for the <code>Product_Category</code>. <code>Gender</code> and <code>Marital_Status</code> were specifically chosen for being traits that are easily identifiable.</p>
+<p><code>Order</code>, despite representing the number of orders for a transaction was not selected as the outcome variable. This decision was made because the types of categories present varied greatly (ie. Auto and Tupperware). Because of the inherent differences between categories, it is unlikely that order numbers between categories would be comparable.</p>
+<p><code>User_ID</code>, <code>Gender</code>, <code>Age</code>, and <code>Amount</code> are used to answer the question of how the customer’s demographics will affect the amount they will spend at the festival. <code>User_ID</code> and <code>Age</code> are used to group the customer data so that each row will represent a unique customer. Using the customer’s age will also ensure that multiple years worth of transactions are separated accordingly. This will help ensure changes in demographics won’t be lost in merging the data by <code>Customer_ID</code> alone. <code>Amount</code> is used to generate the response variable by summing the values based on the grouping of the data.</p>
+<p><code>State</code>, <code>Occupation</code>, and <code>Zone</code> are under consideration for potential variables.</p>
+<p><code>Cust_name</code> is not utilized because the variable is an identifier and is not expected to generate information meaningful for marketing and business strategies.</p>
+<p><code>Product_ID</code> is not utilized because the variable does not contain information regarding what the product is.</p>
+<p><code>Age.Group</code> is currently not under consideration for analysis since the variable is represented in <code>Age</code>. It is used for data cleaning of <code>Marital_Status</code>, as mentioned in the data wrangling section.</p>
+</section>
+<section id="data-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
+<section id="marital_status" class="level3">
+<h3 class="anchored" data-anchor-id="marital_status"><code>Marital_Status</code>:</h3>
+<p>The minimum legal age to marry in India is 18 for women and 21 for men. Several customers were coded as married at illegal ages. These were likely errors in data entry. To address this issue, we recoded the entries for <code>Marital_Status</code> of customers from 1 to 0 in compliance with the legal marriage ages. Customers indicated to be under the age of 18 using variable <code>Age.Group</code> were defaulted to 0 for <code>Marital_Status</code> using the <code>mutate</code> and <code>case_when</code> functions. Additionally, a second condition in the <code>case_when</code> function was that if a customer was both male and under 21, <code>Marital_Status</code> would be coded as 0.</p>
+<p>For ease of interpretation, <code>Marital_Status</code> was further modifed using another <code>mutate</code> and <code>case_when</code> function to recode 0 as Single and 1 as Married.</p>
+</section>
+<section id="product_category" class="level3">
+<h3 class="anchored" data-anchor-id="product_category"><code>Product_Category</code></h3>
+<p>Using the <code>mutate</code> and <code>case_when</code> functions, <code>Product_Category</code> was reduced from 18 categories into 8 based on similarities of the initial categories. This is done because goods which are coded as differently in <code>Product_category</code> are likely to be sold in the same business if the products fall under a larger category. This subsetting of the <code>Product_Category</code> has the added benefit of minimizing plot clutter. The details can be found in the following table:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Product_Category</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Adjusted Category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Auto</td>
+<td style="text-align: left;">Auto</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Beauty</td>
+<td style="text-align: left;">Beauty</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Clothing &amp; Apparel</td>
+<td style="text-align: left;">Clothing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Footwear &amp; Shoes</td>
+<td style="text-align: left;">Clothing</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Books</td>
+<td style="text-align: left;">Entertainment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electronics &amp; Gadgets</td>
+<td style="text-align: left;">Entertainment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Games &amp; Toys</td>
+<td style="text-align: left;">Entertainment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sports Products</td>
+<td style="text-align: left;">Entertainment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Food</td>
+<td style="text-align: left;">Food</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decor</td>
+<td style="text-align: left;">Home</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Furniture</td>
+<td style="text-align: left;">Home</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hand &amp; Power Tools</td>
+<td style="text-align: left;">Home</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Household items</td>
+<td style="text-align: left;">Home</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tupperware</td>
+<td style="text-align: left;">Home</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Office</td>
+<td style="text-align: left;">Office</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stationery</td>
+<td style="text-align: left;">Office</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pet Care</td>
+<td style="text-align: left;">Pet Care</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Veterinary</td>
+<td style="text-align: left;">Pet Care</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="amount" class="level3">
+<h3 class="anchored" data-anchor-id="amount"><code>Amount</code></h3>
+<p>For our second question of interest, we are interested in assessing how a customer’s demographics affect how much they will spend. To do this, a second dataset was generated using the <code>group_by</code> function according to <code>User_ID</code> and <code>Age</code>. This is because a customer can have multiple purchases. Additionally, the changing ages for a customer suggests that the dataset covers transactions over several years. Because several column values such as <code>Occupation</code> have different entries for the same customer, it is prudent to assess the same customer with differing ages as separate transactions to more accurately analyze the effect of the demographic on <code>Amount</code>.</p>
+<p>After using the <code>group_by</code> function, the data used the <code>summarize</code> function in order to sum the <code>Amount</code> as <code>Total</code>. This new variable now displays the total amount spent a customer spent in that year’s Diwali festival.</p>
+</section>
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
@@ -326,34 +444,184 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="question-2" class="level3">
 <h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
-<p>What is the <code>Amount</code> a customer spends, given their demographics, such as <code>Gender</code> and <code>Age.Group</code>?</p>
+<p>What is the <code>Total</code> a customer spends, given their demographics, such as <code>Gender</code> and <code>Age</code>?</p>
 </section>
 </section>
 <section id="analysis-plan" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-plan">Analysis Plan</h2>
 <section id="question-1-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-1-1">Question 1</h3>
-<section id="dataset-transformation" class="level4">
-<h4 class="anchored" data-anchor-id="dataset-transformation">Dataset Transformation</h4>
-<p>Transform the <code>Product_Category</code> based on commonality of certain categories (ie Pet Care and Veterinary). <code>Product_Category</code>went from 18 categories to 8.</p>
-<p><code>Marital_Status</code> is recoded such that 0 is Single and 1 is Married.</p>
-</section>
-<section id="planned-plot" class="level4">
-<h4 class="anchored" data-anchor-id="planned-plot">Planned Plot</h4>
-<p>Generate a bar plot the <code>Product_Category</code> with dodge position based on <code>Gender</code> with an added facet wrap based on <code>Marital_Status</code>. <code>Product_Category</code> is set as the vertical axis. Inclusion of <code>Zone</code> and <code>State</code> variable will be determined later.</p>
-</section>
+<p>We will generate a bar plot using <code>geom_bar()</code> of the <code>Product_Category</code> with <code>dodge</code> position based on <code>Gender</code> with an added facet wrap based on <code>Marital_Status</code>. <code>Product_Category</code> is set as the vertical axis. Inclusion of <code>Zone</code> and <code>State</code> variable will be determined later.</p>
 </section>
 <section id="question-2-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-2-1">Question 2</h3>
-<section id="dataset-transformation-1" class="level4">
-<h4 class="anchored" data-anchor-id="dataset-transformation-1">Dataset Transformation</h4>
-<p>Transform the data by grouping the observations by <code>User_ID</code> and sum <code>Amount</code>.</p>
-</section>
-<section id="planned-plot-1" class="level4">
-<h4 class="anchored" data-anchor-id="planned-plot-1">Planned Plot</h4>
-<p>Afterwards we will generate a boxplot using <code>Amount</code> as the response variable. The horizontal-axis will be the <code>Age.Group</code> or <code>Age</code>. The <code>Gender</code> could be represented on the plot with either a facet wrap or the dodge position. This will be determined later.</p>
+<p>We will generate fitting a regression on the data using <code>geom_smooth()</code> with <code>Total</code> as the response variable. The horizontal-axis will be the <code>Age</code>. The <code>Gender</code> will be represented on the plot with either a facet wrap or the dodge position.</p>
 </section>
 </section>
+<section id="timeline" class="level2">
+<h2 class="anchored" data-anchor-id="timeline">Timeline</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Task</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Deadline</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Ownership</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Submit project name</td>
+<td style="text-align: left;">Feb 1</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Choose project 1 dataset</td>
+<td style="text-align: left;">Feb 1</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Formulate Question 1</td>
+<td style="text-align: left;">Feb 7</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Formulate Question 2</td>
+<td style="text-align: left;">Feb 7</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Create proposal draft for peer review</td>
+<td style="text-align: left;">Feb 7</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Github commit proposal draft</td>
+<td style="text-align: left;">Feb 7</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Publish project 1 website</td>
+<td style="text-align: left;">Feb 12</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Update About section</td>
+<td style="text-align: left;">Feb 19</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Perform peer review</td>
+<td style="text-align: left;">Feb 8</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Implement peer review edits and commit</td>
+<td style="text-align: left;">Feb 12</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Review instructor feedback</td>
+<td style="text-align: left;">Feb 15</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;">Complete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Implement and commit updates to proposal</td>
+<td style="text-align: left;">Feb 19</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Update project website</td>
+<td style="text-align: left;">Feb 19</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Initial Question 1 data wrangling</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Vidhyananth</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Plot 1 draft</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Plot 1 interpretation</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Gowtham</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Initial Question 2 data wrangling</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Miki</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Plot 2 draft</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Anusha</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Plot 2 interpretation</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Siva Rohit</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Update Project section</td>
+<td style="text-align: left;">Feb 23</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Internal project review</td>
+<td style="text-align: left;">Feb 26</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">First draft of presentation</td>
+<td style="text-align: left;">Feb 29</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Final draft of presentation</td>
+<td style="text-align: left;">March 8</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Final submission</td>
+<td style="text-align: left;">March 11</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
 </section>
 <section id="citations" class="level2">
 <h2 class="anchored" data-anchor-id="citations">Citations</h2>
