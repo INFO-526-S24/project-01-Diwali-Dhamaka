@@ -333,6 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
+<p>For the data wrangling, we utilized the <code>dplyr</code> package.</p>
 <section id="marital_status" class="level3">
 <h3 class="anchored" data-anchor-id="marital_status"><code>Marital_Status</code>:</h3>
 <p>The minimum legal age to marry in India is 18 for women and 21 for men. Several customers were coded as married at illegal ages. These were likely errors in data entry. To address this issue, we recoded the entries for <code>Marital_Status</code> of customers from 1 to 0 in compliance with the legal marriage ages. Customers indicated to be under the age of 18 using variable <code>Age.Group</code> were defaulted to 0 for <code>Marital_Status</code> using the <code>mutate</code> and <code>case_when</code> functions. Additionally, a second condition in the <code>case_when</code> function was that if a customer was both male and under 21, <code>Marital_Status</code> would be coded as 0.</p>
@@ -451,11 +452,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="analysis-plan">Analysis Plan</h2>
 <section id="question-1-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-1-1">Question 1</h3>
-<p>We will generate a bar plot using <code>geom_bar()</code> of the <code>Product_Category</code> with <code>dodge</code> position based on <code>Gender</code> with an added facet wrap based on <code>Marital_Status</code>. <code>Product_Category</code> is set as the vertical axis. Inclusion of <code>Zone</code> and <code>State</code> variable will be determined later.</p>
+<p>Using <code>ggplot2</code>, we will generate a bar plot using <code>geom_bar()</code> of the <code>Product_Category</code> with <code>dodge</code> position based on <code>Gender</code> with an added facet wrap based on <code>Marital_Status</code>. <code>Product_Category</code> is set as the vertical axis. Inclusion of <code>Zone</code> and <code>State</code> variable will be determined later.</p>
 </section>
 <section id="question-2-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-2-1">Question 2</h3>
-<p>We will generate fitting a regression on the data using <code>geom_smooth()</code> with <code>Total</code> as the response variable. The horizontal-axis will be the <code>Age</code>. The <code>Gender</code> will be represented on the plot with either a facet wrap or the dodge position.</p>
+<p>Using <code>ggplot2</code>, we will generate fitting a regression on the data using <code>geom_smooth()</code> with <code>Total</code> as the response variable. The horizontal-axis will be the <code>Age</code>. The <code>Gender</code> will be represented on the plot with either a facet wrap or the dodge position.</p>
 </section>
 </section>
 <section id="timeline" class="level2">
