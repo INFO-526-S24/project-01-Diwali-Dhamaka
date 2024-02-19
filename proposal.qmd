@@ -16,21 +16,19 @@ pacman::p_load(kableExtra)
 ```
 
 ## Introduction
-Diwali stands as a paramount cultural festival celebrated by various Indian
-religions. An effect of the festivities is that the festival period is also a
-period of economic activity. Many would compare the event to the Christmas
-shopping period.
+
+Diwali stands as a paramount cultural festival celebrated by various Indian religions. An effect of the festivities is that the festival period is also a period of economic activity. Many would compare the event to the Christmas shopping period.
 
 ## Why the Diwali dataset?
-As a topic of interest, many businesses would find it worthwile to look into the
-sales data to develop business strategies to maximize revenue based on patterns
-found through data analysis.
+
+As a topic of interest, many businesses would find it worthwile to look into the sales data to develop business strategies to maximize revenue based on patterns found through data analysis.
 
 ## Analysis Goals
-Discover customer purchase patterns based on Indian states' sale transaction
-details such as customer demographics and products purchased.
+
+Discover customer purchase patterns based on Indian states' sale transaction details such as customer demographics and products purchased.
 
 ## Dataset
+
 ```{r}
 #| label: load-dataset
 #| message: false
@@ -38,15 +36,11 @@ details such as customer demographics and products purchased.
 diwali_sales <- read.csv("data/diwali_sales_data.csv")
 ```
 
-The diwali_sales_data.csv is a dataset sourced from the 2023 TidyTuesday data
-repository using the following link:
+The diwali_sales_data.csv is a dataset sourced from the 2023 TidyTuesday data repository using the following link:
 
 <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14">Diwali Sales Repository</a>
 
-The .csv spans multiple years and contains 13 variables and 11251 transactions.
-Several transactions are tied to the same customer. Of the transactions, 12
-transactions did not have information regarding the sale price of the
-transaction and will be excluded from the data.
+The .csv spans multiple years and contains 13 variables and 11251 transactions. Several transactions are tied to the same customer. Of the transactions, 12 transactions did not have information regarding the sale price of the transaction and will be excluded from the data.
 
 -Nine variables detail customer identification and demographics.
 
@@ -116,46 +110,261 @@ my_table
 # summary(diwali_sales[which(diwali_sales$Age == 12), "Marital_Status"])
 # unique(diwali_sales$State)
 # unique(diwali_sales$Zone)
+# unique(diwali_sales$Product_Category)
 ```
 
-Of these variables, `User_ID`, `Gender`, `Age.Group`, `Age`, `Marital_Status`,
-`Product_Category`, and `Amount` will be used for our analysis. `State` and
-`Zone` are under consideration for potential variables.
+`Gender` and `Marital_Status` are used as broad demographic subsets to see the
+number of transactions made for the `Product_Category`. `Gender` and
+`Marital_Status` were specifically chosen for being traits that are easily
+identifiable.
+
+`Order`, despite representing the number of orders for a transaction was not
+selected as the outcome variable. This decision was made because the types of
+categories present varied greatly (ie. Auto and Tupperware). Because of the
+inherent differences between categories, it is unlikely that order numbers
+between categories would be comparable.
+
+`User_ID`, `Gender`, `Age`, and `Amount` are used to answer the question of how
+the customer's demographics will affect the amount they will spend at the
+festival. `User_ID` and `Age` are used to group the customer data so that each
+row will represent a unique customer. Using the customer's age will also
+ensure that multiple years worth of transactions are separated accordingly. This
+will help ensure changes in demographics won't be lost in merging the data by
+`Customer_ID` alone. `Amount` is used to generate the response variable by
+summing the values based on the grouping of the data.
+
+`State`, `Occupation`, and `Zone` are under consideration for potential
+variables.
+
+`Cust_name` is not utilized because the variable is an identifier and is not
+expected to generate information meaningful for marketing and business
+strategies.
+
+`Product_ID` is not utilized because the variable does not contain information
+regarding what the product is.
+
+`Age.Group` is currently not under consideration for analysis since the variable
+is represented in `Age`. It is used for data cleaning of `Marital_Status`, as
+mentioned in the data wrangling section.
+
+## Data Wrangling
+For the data wrangling, we utilized the `dplyr` package.
+
+### `Marital_Status`:
+The minimum legal age to marry in India is 18 for women and 21 for men. Several
+customers were coded as married at illegal ages. These were likely errors in
+data entry. To address this issue, we recoded the entries for `Marital_Status`
+of customers from 1 to 0 in compliance with the legal marriage ages. Customers
+indicated to be under the age of 18 using variable `Age.Group` were defaulted to
+0 for `Marital_Status` using the `mutate` and `case_when` functions.
+Additionally, a second condition in the `case_when` function was that if a
+customer was both male and under 21, `Marital_Status` would be coded as 0.
+
+For ease of interpretation, `Marital_Status` was further modifed using another
+`mutate` and `case_when` function to recode 0 as Single and 1 as Married.
+
+### `Product_Category`
+Using the `mutate` and `case_when` functions, `Product_Category` was reduced
+from 18 categories into 8 based on similarities of the initial categories. This
+is done because goods which are coded as differently in `Product_category` are
+likely to be sold in the same business if the products fall under a larger
+category. This subsetting of the `Product_Category` has the added benefit of
+minimizing plot clutter. The details can be found in the following table:
+
+```{r}
+#| label: product-table
+#| echo: false
+#| message: false
+
+# Create vectors to represent the Product_Category column
+original_cat <- c("Auto", "Beauty", "Clothing & Apparel", "Footwear & Shoes",
+                  "Books", "Electronics & Gadgets", "Games & Toys",
+                  "Sports Products", "Food", "Decor", "Furniture",
+                  "Hand & Power Tools", "Household items", "Tupperware",
+                  "Office", "Stationery", "Pet Care", "Veterinary")
+
+# Create vector to represent new category
+new_cat <- c("Auto", "Beauty", "Clothing", "Clothing", "Entertainment",
+             "Entertainment", "Entertainment", "Entertainment", "Food", "Home",
+             "Home", "Home", "Home", "Home", "Office", "Office", "Pet Care",
+             "Pet Care")
+
+# Bind the columns
+table_2 <- as.table(cbind(original_cat, new_cat))
+colnames(table_2) <- c("Product_Category", "Adjusted Category")
+row.names(table_2) <- seq(1:nrow(table_2))
+
+# Generate a nice table with kable
+product_table <- kable(table_2, "html") %>%
+  kable_styling(full_width = FALSE)
+
+# Display the table
+product_table
+```
+
+### `Amount`
+For our second question of interest, we are interested in assessing how a
+customer's demographics affect how much they will spend. To do this, a second
+dataset was generated using the `group_by` function according to `User_ID` and
+`Age`. This is because a customer can have multiple purchases. Additionally, the
+changing ages for a customer suggests that the dataset covers transactions over
+several years. Because several column values such as `Occupation` have different
+entries for the same customer, it is prudent to assess the same customer with
+differing ages as separate transactions to more accurately analyze the effect
+of the demographic on `Amount`.
+
+After using the `group_by` function, the data used the `summarize` function in
+order to sum the `Amount` as `Total`. This new variable now displays the
+total amount spent a customer spent in that year's Diwali festival.
 
 ## Questions
+
 ### Question 1
-For each `Product_Category`, what is the largest customer group based on
-`Gender` and `Marital_Status`?
+
+For each `Product_Category`, what is the largest customer group based on `Gender` and `Marital_Status`?
 
 ### Question 2
-What is the `Amount` a customer spends, given their demographics, such as
-`Gender` and `Age.Group`?
+
+What is the `Total` a customer spends, given their demographics, such as `Gender` and `Age`?
 
 ## Analysis Plan
+
 ### Question 1
-#### Dataset Transformation
-Transform the `Product_Category` based on commonality of certain categories
-(ie Pet Care and Veterinary). `Product_Category`went from 18 categories to 8.
 
-`Marital_Status` is recoded such that 0 is Single and 1 is Married.
-
-#### Planned Plot
-Generate a bar plot the `Product_Category` with dodge position based on
-`Gender` with an added facet wrap based on `Marital_Status`. `Product_Category`
-is set as the vertical axis. Inclusion of `Zone` and `State` variable will be
-determined later.
+Using `ggplot2`, we will generate a bar plot using `geom_bar()` of the `Product_Category` with `dodge` position based on `Gender` with an added facet wrap based on `Marital_Status`. `Product_Category` is set as the vertical axis. Inclusion of `Zone` and `State` variable will be determined later.
 
 ### Question 2
-#### Dataset Transformation
-Transform the data by grouping the observations by `User_ID` and sum `Amount`.
 
-#### Planned Plot
-Afterwards we will generate a boxplot using `Amount` as the response variable.
-The horizontal-axis will be the `Age.Group` or `Age`. The `Gender` could be
-represented on the plot with either a facet wrap or the dodge position.
-This will be determined later.
+Using `ggplot2`, we will generate fitting a regression on the data using `geom_smooth()` with
+`Total` as the response variable. The horizontal-axis will be the `Age`. The
+`Gender` will be represented on the plot with either a facet wrap or the dodge
+position.
+
+## Timeline
+```{r}
+#| label: timeline-table
+#| echo: false
+#| message: false
+
+# Create vectors to represent the tasks
+tasks <- c("Submit project name",
+           "Choose project 1 dataset",
+           "Formulate Question 1",
+           "Formulate Question 2",
+           "Create proposal draft for peer review",
+           "Github commit proposal draft",
+           "Publish project 1 website",
+           "Update About section",
+           "Perform peer review",
+           "Implement peer review edits and commit",
+           "Review instructor feedback",
+           "Implement and commit updates to proposal",
+           "Update project website",
+           "Initial Question 1 data wrangling",
+           "Plot 1 draft",
+           "Plot 1 interpretation",
+           "Initial Question 2 data wrangling",
+           "Plot 2 draft",
+           "Plot 2 interpretation",
+           "Update Project section",
+           "Internal project review",
+           "First draft of presentation",
+           "Final draft of presentation",
+           "Final submission")
+
+# Create vector to represent the deadline
+turn_in <- c("Feb 1",
+             "Feb 1",
+             "Feb 7",
+             "Feb 7",
+             "Feb 7",
+             "Feb 7",
+             "Feb 12",
+             "Feb 19",
+             "Feb 8",
+             "Feb 12",
+             "Feb 15",
+             "Feb 19",
+             "Feb 19",
+             "Feb 23",
+             "Feb 23",
+             "Feb 23",
+             "Feb 23",
+             "Feb 23",
+             "Feb 23",
+             "Feb 23",
+             "Feb 26",
+             "Feb 29",
+             "March 8",
+             "March 11")
+
+# Create vector to represent ownership
+member <- c("All",
+            "All",
+            "All",
+            "All",
+            "All",
+            "Peter",
+            "Peter",
+            "Peter",
+            "All",
+            "Peter",
+            "All",
+            "Peter",
+            "Peter",
+            "Vidhyananth",
+            "Peter",
+            "Gowtham",
+            "Miki",
+            "Anusha",
+            "Siva",
+            "Peter",
+            "All",
+            "All",
+            "All",
+            "All")
+
+# Create vector to represent status
+status <- c("Complete",
+            "Complete",
+            "Complete",
+            "Complete",
+            "Complete",
+            "Complete",
+            "Complete",
+            "",
+            "Complete",
+            "Complete",
+            "Complete",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "")
+
+# Bind the columns
+table_3 <- as.table(cbind(tasks, turn_in, member, status))
+colnames(table_3) <- c("Task", "Deadline", "Ownership", "Status")
+row.names(table_3) <- seq(1:nrow(table_3))
+
+# Generate a nice table with kable
+timeline_table <- kable(table_3, "html") %>%
+  kable_styling(full_width = FALSE)
+
+# Display the table
+timeline_table
+```
 
 ## Citations
+
 Diwali Sales Repository:
 
 <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14">https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14</a>

@@ -1,7 +1,7 @@
 ---
-title: "Project title"
+title: "Diwali Sales Trend Analysis"
 subtitle: "INFO 526 - Project 1"
-author: "Team name"
+author: "Diwali Dhamaka"
 format: html
 editor: visual
 ---

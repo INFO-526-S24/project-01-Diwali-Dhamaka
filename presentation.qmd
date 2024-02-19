@@ -22,8 +22,9 @@ execute:
 
 # Load packages here
 pacman::p_load(dplyr,
-               tidymodels,
-               tidyverse)
+               ggplot2)
+               # tidymodels,
+               # tidyverse)
 
 ```
 
@@ -47,36 +48,46 @@ knitr::opts_chunk$set(
 #| label: load-data
 #| include: false
 # Load data here
-df <- read.csv(
-  'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-11-14/diwali_sales_data.csv')
+df <- read.csv("data/diwali_sales_data.csv")
 
 # Remove NA values
 df <- df[-which(is.na(df$Amount)),]
+
+# Recode marital status in case age value is illegal
+df <- df |>
+  mutate(
+    Marital_Status = case_when(
+      Age.Group == "0-17" ~ 0,
+      Age < 21 & Gender =="M" ~ 0,
+      TRUE ~ Marital_Status
+    )
+  )
 
 # Modify dataset for Q1 analysis
 df.Q1 <- df |>
   mutate(
     # Refactorizes the product category based on similarity between products
     Product_Category = case_when(
-     Product_Category %in% c("Footwear & Shoes") ~ "Clothing & Apparel",
-     Product_Category %in% c("Books") ~ "Entertainment",
-     Product_Category %in% c("Electronics & Gadgets") ~ "Entertainment",
-     Product_Category %in% c("Games & Toys") ~ "Entertainment",
-     Product_Category %in% c("Sports Products") ~ "Entertainment",
-     Product_Category %in% c("Decor") ~ "Home",
-     Product_Category %in% c("Furniture") ~ "Home",
-     Product_Category %in% c("Hand & Power Tools") ~ "Home",
-     Product_Category %in% c("Household items") ~ "Home",
-     Product_Category %in% c("Tupperware") ~ "Home",
-     Product_Category %in% c("Stationery") ~ "Office",
-     Product_Category %in% c("Veterinary") ~ "Pet Care",
-     TRUE ~ Product_Category
-    ),
+      Product_Category %in% c("Footwear & Shoes") ~ "Clothing",
+      Product_Category %in% c("Clothing & Apparel") ~ "Clothing",
+      Product_Category %in% c("Books") ~ "Entertainment",
+      Product_Category %in% c("Electronics & Gadgets") ~ "Entertainment",
+      Product_Category %in% c("Games & Toys") ~ "Entertainment",
+      Product_Category %in% c("Sports Products") ~ "Entertainment",
+      Product_Category %in% c("Decor") ~ "Home",
+      Product_Category %in% c("Furniture") ~ "Home",
+      Product_Category %in% c("Hand & Power Tools") ~ "Home",
+      Product_Category %in% c("Household items") ~ "Home",
+      Product_Category %in% c("Tupperware") ~ "Home",
+      Product_Category %in% c("Stationery") ~ "Office",
+      Product_Category %in% c("Veterinary") ~ "Pet Care",
+      TRUE ~ Product_Category
+      ),
     
-    # Refactorizes the marital status to detail the meaning(Kaggle)
+    # Refactorizes the marital status to detail the meaning
     Marital_Status = case_when(
-      Marital_Status %in% 0 ~ "Married",
-      Marital_Status %in% 1 ~ "Single"
+      Marital_Status %in% 1 ~ "Married",
+      Marital_Status %in% 0 ~ "Single"
     )
   )
 
@@ -87,7 +98,7 @@ df.Q1$Product_Category <- factor(df.Q1$Product_Category, levels = rev(levels(df.
 # Bar plot showing the number of customers for product category across gender
 # and marital status
 ggplot(data = df.Q1, aes(y = Product_Category, fill = Gender)) +
-  geom_bar(position = "dodge") +
+  geom_bar(position = "dodge", width = 0.7) +
   scale_fill_manual(values = c("pink", "lightblue")) +
   # Reorder legend to match the order of the bar plot
   guides(fill = guide_legend(reverse = TRUE)) +
@@ -98,15 +109,14 @@ ggplot(data = df.Q1, aes(y = Product_Category, fill = Gender)) +
 
 # Modify data for Q2
 df.Q2 <- df |>
-  group_by(User_ID) |>
+  group_by(User_ID, Age) |>
   summarize(
     "Gender" = first(Gender),
     "Age_Group" = first(Age.Group),
-    "Age" = first(Age),
     "Total" = sum(Amount))
 
 # Plot Q2 data
-ggplot(data = df.Q2, aes(x = Age_Group, y = log10(Total), fill = Gender)) +
+ggplot(data = df.Q2, aes(x = Age_Group, y = (Total), fill = Gender)) +
   geom_boxplot()
 
 ggplot(data = df.Q2, aes(x = Age, y = Total, color = Gender)) +
