@@ -16,4 +16,4 @@ This project was developed by **\[Diwali Dhamaka\]** For [INFO 526 - Data Analys
 
 -   Anusha Nagaraja: 2nd year MS student in Information Science.
 
--   Team member 6: One sentence description of Team member 6 (e.g., year, major, etc.).
+-   Gowtham Theeda: 1st year MS student in Data Science.

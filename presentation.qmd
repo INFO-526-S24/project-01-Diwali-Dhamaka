@@ -22,6 +22,7 @@ execute:
 
 # Load packages here
 pacman::p_load(dplyr,
+               broom,
                ggplot2)
                # tidymodels,
                # tidyverse)
@@ -44,17 +45,21 @@ knitr::opts_chunk$set(
   )
 ```
 
+## Introduction
+
+## Plot 1
+
 ```{r}
-#| label: load-data
-#| include: false
-# Load data here
-df <- read.csv("data/diwali_sales_data.csv")
+#| label: question1-data-wrangling
+#| warning: false
+# Read in project data
+diwali <- read.csv("data/diwali_sales_data.csv")
 
 # Remove NA values
-df <- df[-which(is.na(df$Amount)),]
+diwali <- diwali[-which(is.na(diwali$Amount)),]
 
 # Recode marital status in case age value is illegal
-df <- df |>
+diwali <- diwali |>
   mutate(
     Marital_Status = case_when(
       Age.Group == "0-17" ~ 0,
@@ -63,8 +68,8 @@ df <- df |>
     )
   )
 
-# Modify dataset for Q1 analysis
-df.Q1 <- df |>
+# Modify dataset according to project analysis
+diwali <- diwali |>
   mutate(
     # Refactorizes the product category based on similarity between products
     Product_Category = case_when(
@@ -91,37 +96,80 @@ df.Q1 <- df |>
     )
   )
 
+# Check the number of product categories for refactor level
+category_order <- as.data.frame(matrix(nrow = 8, ncol = 2))
+category_order[,1] <- c("Auto", "Beauty", "Clothing", "Entertainment", "Food",
+                    "Home", "Office", "Pet Care")
+category_order[,2] <- as.integer(summary(as.factor(diwali$Product_Category)))
+category_vector <- (category_order[order(category_order[,2]),1])
+
 # Refactorizes the product category to sort the groups alphabetically
-df.Q1$Product_Category <- as.factor(df.Q1$Product_Category)
-df.Q1$Product_Category <- factor(df.Q1$Product_Category, levels = rev(levels(df.Q1$Product_Category)))
+diwali$Product_Category <- as.factor(diwali$Product_Category)
+diwali$Product_Category <- factor(diwali$Product_Category,
+                                  levels = category_vector)
+
+# Sort Gender factor level
+diwali$Gender <- factor(diwali$Gender, levels = c("M", "F"))
+
+# Sort Marital_Status factor level
+diwali$Marital_Status <- factor(diwali$Marital_Status,
+                                levels = c("Single", "Married"))
+```
+
+```{r} 
+#| label: question1-plot
+#| warning: false
+#| fig-width: 10
 
 # Bar plot showing the number of customers for product category across gender
 # and marital status
-ggplot(data = df.Q1, aes(y = Product_Category, fill = Gender)) +
+ggplot(data = diwali, aes(y = Product_Category, fill = Gender)) +
   geom_bar(position = "dodge", width = 0.7) +
-  scale_fill_manual(values = c("pink", "lightblue")) +
+  scale_fill_manual(values = c("lightblue", "pink")) +
   # Reorder legend to match the order of the bar plot
   guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle("Total Count of Sale Type") +
   facet_wrap(~Marital_Status, ncol = 1) +
   ylab("Product Category") +
-  xlab("Counts")
+  xlab("Counts") +
+  theme(axis.text.y = element_text(size = 6))
+```
 
+## Interpretation
+
+## Plot 2
+
+```{r}
+#| label: question2-data-wrangling
+#| echo: false
 # Modify data for Q2
-df.Q2 <- df |>
+df.Q2 <- diwali |>
   group_by(User_ID, Age) |>
   summarize(
     "Gender" = first(Gender),
     "Age_Group" = first(Age.Group),
+    "Marital_Status" = first(Marital_Status),
     "Total" = sum(Amount))
-
-# Plot Q2 data
-ggplot(data = df.Q2, aes(x = Age_Group, y = (Total), fill = Gender)) +
-  geom_boxplot()
-
-ggplot(data = df.Q2, aes(x = Age, y = Total, color = Gender)) +
-  geom_smooth()
 ```
+
+```{r}
+#| label: question2-plot
+#| echo: false
+# Plot Q2 data
+ggplot(data = df.Q2, aes(x = Age, y = Total, color = Gender)) +
+  geom_smooth()  +
+  facet_wrap(~Marital_Status, ncol = 2)
+```
+
+## Validation
+```{r}
+#| label: question2-val
+#| echo: false
+diwali_lm <- lm(Total~Age, data = df.Q2)
+print(tidy_diwali <- tidy(diwali_lm))
+```
+
+## Interpretation
 
 # Using Quarto for presentations
 
@@ -174,6 +222,7 @@ or in two columns
 :::
 
 ::: {.column width="50%"}
+
 ```{r, warning=FALSE, fig.width=5.5}
 
 ```
