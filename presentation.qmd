@@ -1,10 +1,10 @@
 ---
-title: "Project title"
+title: "Diwali Sales Trend Analysis"
 subtitle: "INFO 526 - Fall 2023 - Project 1"
-author: "Author names"
+author: "Peter Yeh, Miki Katyal, Vidhyananth Sivashanmugam, Kondapaneni Siva Rohit, Anusha Nagaraja, Gowtham Theeda"
 title-slide-attributes:
-  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
-  data-background-size: stretch
+  data-background-image: images/diwali.jpg
+  data-background-size: cover
   data-background-opacity: "0.7"
   data-slide-number: none
 format:
@@ -23,10 +23,9 @@ execute:
 # Load packages here
 pacman::p_load(dplyr,
                broom,
-               ggplot2)
-               # tidymodels,
-               # tidyverse)
-
+               ggplot2,
+               scales,
+               kableExtra)
 ```
 
 ```{r}
@@ -45,9 +44,44 @@ knitr::opts_chunk$set(
   )
 ```
 
-## Introduction
+## Context
 
-## Plot 1
+::: columns
+::: {.column width="50%"}
+
+![Image credit: Prem Bharti](images/1697434127639.jpg){fig-align="center" width="500" height="400"}
+
+:::
+
+::: {.column width="50%"}
+-   Diwali festival is a paramount Indian festival
+
+-   Comparable to the Christmas shopping period
+
+-   Analyze transaction patterns and offer explanations
+:::
+:::
+
+## Dataset Description
+
+-   Diwali festival transactional data collected across years
+
+-   Sourced from 2023 TidyTuesday data repository
+
+-   Contains 13 variables and 11251 transactions
+
+-   A customer can have multiple transactions
+
+-   Variables utilized for the analysis include customer ID, age, age group,
+gender, marital status, product category, order size, and amount spent
+
+## Question 1: Motivation
+
+For each product category, what is the largest customer group based on gender and marital status?
+
+-   Motivation
+
+## Question 1: Barplot
 
 ```{r}
 #| label: question1-data-wrangling
@@ -96,6 +130,8 @@ diwali <- diwali |>
     )
   )
 
+diwali <- diwali[-which(diwali$Age.Group == "0-17"),]
+
 # Check the number of product categories for refactor level
 category_order <- as.data.frame(matrix(nrow = 8, ncol = 2))
 category_order[,1] <- c("Auto", "Beauty", "Clothing", "Entertainment", "Food",
@@ -103,7 +139,7 @@ category_order[,1] <- c("Auto", "Beauty", "Clothing", "Entertainment", "Food",
 category_order[,2] <- as.integer(summary(as.factor(diwali$Product_Category)))
 category_vector <- (category_order[order(category_order[,2]),1])
 
-# Refactorizes the product category to sort the groups alphabetically
+# Refactorizes the product category to sort the groups by count
 diwali$Product_Category <- as.factor(diwali$Product_Category)
 diwali$Product_Category <- factor(diwali$Product_Category,
                                   levels = category_vector)
@@ -119,57 +155,193 @@ diwali$Marital_Status <- factor(diwali$Marital_Status,
 ```{r} 
 #| label: question1-plot
 #| warning: false
-#| fig-width: 10
-
+#| fig-align: "center"
+#| fig-width: 12
 # Bar plot showing the number of customers for product category across gender
 # and marital status
 ggplot(data = diwali, aes(y = Product_Category, fill = Gender)) +
   geom_bar(position = "dodge", width = 0.7) +
-  scale_fill_manual(values = c("lightblue", "pink")) +
+  scale_fill_manual(values = c("dodgerblue", "deeppink1")) +
   # Reorder legend to match the order of the bar plot
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle("Total Count of Sale Type") +
+  ggtitle("Total Count of Sale Type",
+          "Across Marital Status and Gender") +
   facet_wrap(~Marital_Status, ncol = 1) +
   ylab("Product Category") +
   xlab("Counts") +
-  theme(axis.text.y = element_text(size = 6))
+  theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 15),
+        axis.title = element_text(size = 20),
+        axis.text.x = element_text(size = 15),
+        axis.text.y = element_text(size = 15),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 15),
+        strip.text = element_text(size = 15))
 ```
 
-## Interpretation
+## Question 1: Boxplot
 
-## Plot 2
+```{r}
+#| label: question1-boxplot
+
+# Check the average order price of product category
+diwali_price <- diwali |>
+  group_by(Product_Category) |>
+  summarize("Price" = median(Amount/Orders))
+diwali_price <- as.data.frame(diwali_price)
+category_vector <- diwali_price[order(diwali_price[,2]),1]
+
+# Refactorizes the product category to sort the groups by count
+diwali$Product_Category <- factor(diwali$Product_Category,
+                                  levels = rev(category_vector))
+
+# Boxplot of average order values per category
+ggplot(data = diwali,
+       aes(x = Product_Category, y = Amount/Orders)) +
+  geom_boxplot() +
+  scale_y_continuous(labels = label_number(scale = 1e-3, suffix = "K")) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  ggtitle("Boxplot of Order Price",
+          "Ordered by median order price") +
+  xlab("Product Category") +
+  ylab("Order Price (Rupee)")
+```
+
+## Question 2: Motivation
+
+What is the total amount of rupee a customer spends, given their demographics, such as gender, age, and marital status?
+
+-   Why this question?
+
+## Question 2: Boxplot
 
 ```{r}
 #| label: question2-data-wrangling
-#| echo: false
 # Modify data for Q2
-df.Q2 <- diwali |>
+diwali.Q2 <- diwali |>
   group_by(User_ID, Age) |>
   summarize(
     "Gender" = first(Gender),
     "Age_Group" = first(Age.Group),
     "Marital_Status" = first(Marital_Status),
     "Total" = sum(Amount))
+
+# Sort Gender factor level
+diwali.Q2$Gender <- factor(diwali.Q2$Gender, levels = c("M", "F"))
 ```
+
+```{r} 
+#| label: question2-boxplot
+#| warning: false
+#| fig-align: "center"
+#| fig-width: 15
+
+# Boxplot to show customer spending within age group
+ggplot(data = diwali.Q2,
+       aes(x = Age_Group, y = Total, fill = Gender)) +
+  geom_boxplot() +
+  scale_y_continuous(labels = label_number(scale = 1e-3, suffix = "K")) +
+  scale_fill_manual(values = c("dodgerblue", "deeppink1")) +
+  coord_cartesian(ylim = c(0, 80000)) +
+  facet_wrap(~Marital_Status, ncol = 2) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  ggtitle("Customer Spending Range", "By age group") +
+  xlab("Age Group") +
+  ylab("Customer Spending (Rupees)") +
+  theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 15),
+        axis.title = element_text(size = 20),
+        axis.text.x = element_text(size = 15),
+        axis.text.y = element_text(size = 15),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 15),
+        strip.text = element_text(size = 15))
+```
+
+## Question 2: Regression
 
 ```{r}
 #| label: question2-plot
-#| echo: false
+#| fig-align: "center"
+#| fig-width: 12
+ 
 # Plot Q2 data
-ggplot(data = df.Q2, aes(x = Age, y = Total, color = Gender)) +
-  geom_smooth()  +
-  facet_wrap(~Marital_Status, ncol = 2)
+ggplot(data = diwali.Q2, aes(x = Age, y = Total, color = Gender)) +
+  geom_smooth(linewidth = 4)  +
+  scale_y_continuous(labels = label_number(scale = 1e-3, suffix = "K")) +
+  facet_wrap(~Marital_Status, ncol = 2) +
+  scale_color_manual(values = c("dodgerblue", "deeppink1")) +
+  guides(color = guide_legend(reverse = TRUE)) +
+  ggtitle("Customer Spending Insights",
+          "Across age and by gender and marital status") +
+  ylab("Customer Spending (Rupees)") +
+  theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 15),
+        axis.title = element_text(size = 20),
+        axis.text.x = element_text(size = 15),
+        axis.text.y = element_text(size = 15),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 15),
+        strip.text = element_text(size = 15))
 ```
 
-## Validation
+## Question 2: Linear Relationship Check
 ```{r}
 #| label: question2-val
-#| echo: false
-diwali_lm <- lm(Total~Age, data = df.Q2)
-print(tidy_diwali <- tidy(diwali_lm))
+# Split data into two subsets
+diwali_single <- diwali.Q2[which(diwali.Q2$Marital_Status == "Single" &
+                               diwali.Q2$Gender == "M"),]
+
+diwali_married <- diwali.Q2[which(diwali.Q2$Marital_Status == "Married" &
+                               diwali.Q2$Gender == "M"),]
+
+# Generate linear models
+single_lm <- lm(Total~Age, data = diwali_single)
+married_lm <- lm(Total~Age, data = diwali_married)
+
+# Round values of tidy objects
+tidy_single <- tidy(single_lm)
+tidy_single[,2:ncol(tidy_single)] <- round(tidy_single[, 2:ncol(tidy_single)],
+                                           2)
+tidy_married <- tidy(married_lm)
+tidy_married[,2:ncol(tidy_married)] <- round(tidy_married[, 2:ncol(tidy_married)],
+                                             2)
+# Generate a nice table with kable
+single_table <- kable(tidy_single, "html") %>%
+  kable_styling(full_width = FALSE)
+
+# Generate a nice table with kable
+married_table <- kable(tidy_married, "html") %>%
+  kable_styling(full_width = FALSE)
 ```
 
-## Interpretation
+Single Men
+
+```{r}
+#| label: question2-single
+# Display the table
+single_table
+```
+
+Married Men
+
+```{r}
+#| label: question2-married
+# Display the table
+married_table
+```
+
+## Limitations
+
+-   Lack of transaction date data
+
+-   Inconsistent occupation data within same year
+
+-   No key to product ID
+
+-   States is not pan-India
+
+# Questions?
 
 # Using Quarto for presentations
 
