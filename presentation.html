@@ -10,8 +10,8 @@
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
-  <meta name="author" content="Author names">
-  <title>Project Title - Project title</title>
+  <meta name="author" content="Peter Yeh, Miki Katyal, Vidhyananth Sivashanmugam, Kondapaneni Siva Rohit, Anusha Nagaraja, Gowtham Theeda">
+  <title>Project Title - Diwali Sales Trend Analysis</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -319,24 +319,171 @@
       margin-right: 0; 
     }
   </style>
+  
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="images/watercolour_sys02_img34_teacup-ocean.jpg" data-background-opacity="0.7" data-background-size="stretch" data-slide-number="none" class="quarto-title-block center">
-  <h1 class="title">Project title</h1>
+<section id="title-slide" data-background-image="images/diwali.jpg" data-background-opacity="0.7" data-background-size="cover" data-slide-number="none" class="quarto-title-block center">
+  <h1 class="title">Diwali Sales Trend Analysis</h1>
   <p class="subtitle">INFO 526 - Fall 2023 - Project 1</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Author names 
+Peter Yeh, Miki Katyal, Vidhyananth Sivashanmugam, Kondapaneni Siva Rohit, Anusha Nagaraja, Gowtham Theeda 
 </div>
 </div>
 </div>
 
 </section>
+<section id="context" class="slide level2">
+<h2>Context</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/1697434127639.jpg" width="500" height="400"></p>
+<figcaption>Image credit: Prem Bharti</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p>Diwali festival is a paramount Indian festival</p></li>
+<li><p>Comparable to the Christmas shopping period</p></li>
+<li><p>Analyze transaction patterns and offer explanations</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="dataset-description" class="slide level2">
+<h2>Dataset Description</h2>
+<ul>
+<li><p>Diwali festival transactional data collected across years</p></li>
+<li><p>Sourced from 2023 TidyTuesday data repository</p></li>
+<li><p>Contains 13 variables and 11251 transactions</p></li>
+<li><p>A customer can have multiple transactions</p></li>
+<li><p>Variables utilized for the analysis include customer ID, age, age group, gender, marital status, product category, order size, and amount spent</p></li>
+</ul>
+</section>
+<section id="question-1-motivation" class="slide level2">
+<h2>Question 1: Motivation</h2>
+<p>For each product category, what is the largest customer group based on gender and marital status?</p>
+<ul>
+<li>Motivation</li>
+</ul>
+</section>
+<section id="question-1-barplot" class="slide level2">
+<h2>Question 1: Barplot</h2>
+
+<img data-src="presentation_files/figure-revealjs/question1-plot-1.png" width="3600" class="r-stretch quarto-figure-center"></section>
+<section id="question-1-boxplot" class="slide level2">
+<h2>Question 1: Boxplot</h2>
+
+<img data-src="presentation_files/figure-revealjs/question1-boxplot-1.png" width="1800" class="r-stretch"></section>
+<section id="question-2-motivation" class="slide level2">
+<h2>Question 2: Motivation</h2>
+<p>What is the total amount of rupee a customer spends, given their demographics, such as gender, age, and marital status?</p>
+<ul>
+<li>Why this question?</li>
+</ul>
+</section>
+<section id="question-2-boxplot" class="slide level2">
+<h2>Question 2: Boxplot</h2>
+
+<img data-src="presentation_files/figure-revealjs/question2-boxplot-1.png" width="4500" class="r-stretch quarto-figure-center"></section>
+<section id="question-2-regression" class="slide level2">
+<h2>Question 2: Regression</h2>
+
+<img data-src="presentation_files/figure-revealjs/question2-plot-1.png" width="3600" class="r-stretch quarto-figure-center"></section>
+<section id="question-2-linear-relationship-check" class="slide level2">
+<h2>Question 2: Linear Relationship Check</h2>
+<p>Single Men</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std.error</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">statistic</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">12586.53</td>
+<td style="text-align: right;">676.70</td>
+<td style="text-align: right;">18.60</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">-13.32</td>
+<td style="text-align: right;">17.37</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">0.44</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Married Men</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std.error</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">statistic</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">12531.36</td>
+<td style="text-align: right;">1304.79</td>
+<td style="text-align: right;">9.60</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">-9.02</td>
+<td style="text-align: right;">32.40</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">0.78</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="limitations" class="slide level2">
+<h2>Limitations</h2>
+<ul>
+<li><p>Lack of transaction date data</p></li>
+<li><p>Inconsistent occupation data within same year</p></li>
+<li><p>No key to product ID</p></li>
+<li><p>States is not pan-India</p></li>
+</ul>
+</section>
+<section id="questions" class="title-slide slide level1 center">
+<h1>Questions?</h1>
+
+</section>
+
 <section>
 <section id="using-quarto-for-presentations" class="title-slide slide level1 center">
 <h1>Using Quarto for presentations</h1>

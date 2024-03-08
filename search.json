@@ -60,7 +60,7 @@
     "href": "proposal.html#timeline",
     "title": "Diwali Sales Trend Analysis",
     "section": "Timeline",
-    "text": "Timeline\n\n\n\n\n\nTask\nDeadline\nOwnership\nStatus\n\n\n\n\nSubmit project name\nFeb 1\nAll\nComplete\n\n\nChoose project 1 dataset\nFeb 1\nAll\nComplete\n\n\nFormulate Question 1\nFeb 7\nAll\nComplete\n\n\nFormulate Question 2\nFeb 7\nAll\nComplete\n\n\nCreate proposal draft for peer review\nFeb 7\nAll\nComplete\n\n\nGithub commit proposal draft\nFeb 7\nPeter\nComplete\n\n\nPublish project 1 website\nFeb 12\nPeter\nComplete\n\n\nUpdate About section\nFeb 19\nPeter\n\n\n\nPerform peer review\nFeb 8\nAll\nComplete\n\n\nImplement peer review edits and commit\nFeb 12\nPeter\nComplete\n\n\nReview instructor feedback\nFeb 15\nAll\nComplete\n\n\nImplement and commit updates to proposal\nFeb 19\nPeter\n\n\n\nUpdate project website\nFeb 19\nPeter\n\n\n\nInitial Question 1 data wrangling\nFeb 23\nVidhyananth\n\n\n\nPlot 1 draft\nFeb 23\nPeter\n\n\n\nPlot 1 interpretation\nFeb 23\nGowtham\n\n\n\nInitial Question 2 data wrangling\nFeb 23\nMiki\n\n\n\nPlot 2 draft\nFeb 23\nAnusha\n\n\n\nPlot 2 interpretation\nFeb 23\nSiva\n\n\n\nUpdate Project section\nFeb 23\nPeter\n\n\n\nInternal project review\nFeb 26\nAll\n\n\n\nFirst draft of presentation\nFeb 29\nAll\n\n\n\nFinal draft of presentation\nMarch 8\nAll\n\n\n\nFinal submission\nMarch 11\nAll"
+    "text": "Timeline\n\n\n\n\n\nTask\nDeadline\nOwnership\nStatus\n\n\n\n\nSubmit project name\nFeb 1\nAll\nComplete\n\n\nChoose project 1 dataset\nFeb 1\nAll\nComplete\n\n\nFormulate Question 1\nFeb 7\nAll\nComplete\n\n\nFormulate Question 2\nFeb 7\nAll\nComplete\n\n\nCreate proposal draft for peer review\nFeb 7\nAll\nComplete\n\n\nGithub commit proposal draft\nFeb 7\nPeter\nComplete\n\n\nPublish project 1 website\nFeb 12\nPeter\nComplete\n\n\nUpdate About section\nFeb 19\nPeter\nComplete\n\n\nPerform peer review\nFeb 8\nAll\nComplete\n\n\nImplement peer review edits and commit\nFeb 12\nPeter\nComplete\n\n\nReview instructor feedback\nFeb 15\nAll\nComplete\n\n\nImplement and commit updates to proposal\nFeb 19\nPeter\nComplete\n\n\nUpdate project website\nFeb 19\nPeter\nComplete\n\n\nInitial Question 1 data wrangling\nFeb 23\nVidhyananth\nComplete\n\n\nPlot 1 draft\nFeb 23\nPeter\nComplete\n\n\nPlot 1 interpretation\nFeb 23\nGowtham\n\n\n\nInitial Question 2 data wrangling\nFeb 23\nMiki\n\n\n\nPlot 2 draft\nFeb 23\nAnusha\n\n\n\nPlot 2 interpretation\nFeb 23\nSiva\n\n\n\nUpdate Project section\nFeb 23\nPeter\n\n\n\nInternal project review\nFeb 26\nAll\n\n\n\nFirst draft of presentation\nFeb 29\nAll\n\n\n\nFinal draft of presentation\nMarch 8\nAll\n\n\n\nFinal submission\nMarch 11\nAll"
   },
   {
     "objectID": "proposal.html#citations",
@@ -74,21 +74,56 @@
     "href": "index.html",
     "title": "Diwali Sales Trend Analysis",
     "section": "",
-    "text": "Add project abstract here."
+    "text": "In this project, our team analyzes the Diwali festival transaction dataset provided by the 2023 TidyTuesday repository. Our aim is to discover purchasing and spending trends of customers. We do this by focusing on two questions:"
   },
   {
     "objectID": "index.html#abstract",
     "href": "index.html#abstract",
     "title": "Diwali Sales Trend Analysis",
     "section": "",
-    "text": "Add project abstract here."
+    "text": "In this project, our team analyzes the Diwali festival transaction dataset provided by the 2023 TidyTuesday repository. Our aim is to discover purchasing and spending trends of customers. We do this by focusing on two questions:"
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Introduction",
+    "text": "Introduction\n(1-2 paragraphs): Brief introduction to the dataset. You may repeat some of the information about the dataset provided in the introduction to the dataset on the TidyTuesday repository, paraphrasing on your own terms. Imagine that your project is a standalone document and the grader has no prior knowledge of the dataset."
+  },
+  {
+    "objectID": "index.html#what-are-the-most-popular-product-category-according-to-customer-demographics",
+    "href": "index.html#what-are-the-most-popular-product-category-according-to-customer-demographics",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "What are the most popular product category according to customer demographics?",
+    "text": "What are the most popular product category according to customer demographics?\nThe title should relate to the question you’re answering.\n\nIntroduction\n(1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you’re interested in this question.\nBecause we are looking at transactional data, a natural question to ask is what is the demographic that engages in the highest number of transactions for any given product. Finding these patterns can be useful in guiding businesses in directing their efforts on attracting customers whose demographics make such purchases, or by highlighting potentially untapped customer groups. In order to develop strategies at the ground level, visible customer features, such as gender and marital status, were utilized to subset the customer groups. Transaction counts were tied to the product category since customer interest would likely fluctuate depending on the products sold.\nBecause product price of certain categories can differ greatly from those of another category, product price could affect a customer’s decision to make a purchase. This potential confounding from product price is assessed by finding individual order prices by taking the amount spent per order and comparing the range of values across the product categories.\n\n\nApproach\n(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.\nA barplot was used to assess the relationship between product category and its interest within a customer demographic. This plot visualizes the number of transactions for each product category and is able to separate the bars according to the features of interest. The count of each transaction is particularly important since any sale leads to profit regardless of order size. The barplot’s visualizations also help give us both an absolute and relevant gauge of interest as the length of the bars can be compared to each other.\nA boxplot was then used to assess if item price could have affected the number of transactions a product category had. The boxplot provides several important statistics such as the interquartile range that gives a clearer picture on how similar or different item prices between categories are. Because prices are likely to remain the same regardless of the customer, gender and marital status are not utilized for this plot.\n\n\nAnalysis\n(2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with ggplot2. Do not use base R or lattice plotting functions.\n\n# Read in project data\ndiwali &lt;- read.csv(\"data/diwali_sales_data.csv\")\n\n# Remove NA values\ndiwali &lt;- diwali[-which(is.na(diwali$Amount)),]\n\n# Recode marital status in case age value is illegal\ndiwali &lt;- diwali |&gt;\n  mutate(\n    Marital_Status = case_when(\n      Age.Group == \"0-17\" ~ 0,\n      Age &lt; 21 & Gender ==\"M\" ~ 0,\n      TRUE ~ Marital_Status\n    )\n  )\n\n# Modify dataset according to project analysis\ndiwali &lt;- diwali |&gt;\n  mutate(\n    # Refactorizes the product category based on similarity between products\n    Product_Category = case_when(\n      Product_Category %in% c(\"Footwear & Shoes\") ~ \"Clothing\",\n      Product_Category %in% c(\"Clothing & Apparel\") ~ \"Clothing\",\n      Product_Category %in% c(\"Books\") ~ \"Entertainment\",\n      Product_Category %in% c(\"Electronics & Gadgets\") ~ \"Entertainment\",\n      Product_Category %in% c(\"Games & Toys\") ~ \"Entertainment\",\n      Product_Category %in% c(\"Sports Products\") ~ \"Entertainment\",\n      Product_Category %in% c(\"Decor\") ~ \"Home\",\n      Product_Category %in% c(\"Furniture\") ~ \"Home\",\n      Product_Category %in% c(\"Hand & Power Tools\") ~ \"Home\",\n      Product_Category %in% c(\"Household items\") ~ \"Home\",\n      Product_Category %in% c(\"Tupperware\") ~ \"Home\",\n      Product_Category %in% c(\"Stationery\") ~ \"Office\",\n      Product_Category %in% c(\"Veterinary\") ~ \"Pet Care\",\n      TRUE ~ Product_Category\n      ),\n    \n    # Refactorizes the marital status to detail the meaning\n    Marital_Status = case_when(\n      Marital_Status %in% 1 ~ \"Married\",\n      Marital_Status %in% 0 ~ \"Single\"\n      ),\n    \n    # Calculate the price of item within each transaction\n    Price = Amount/Orders\n  )\n\n# Remove lowest age group due to inherent issues\ndiwali &lt;- diwali[-which(diwali$Age.Group == \"0-17\"),]\n\n# Sort Gender factor level\ndiwali$Gender &lt;- factor(diwali$Gender, levels = c(\"M\", \"F\"))\n\n# Sort Marital_Status factor level\ndiwali$Marital_Status &lt;- factor(diwali$Marital_Status,\n                                levels = c(\"Single\", \"Married\"))\n\n\n# Check the number of product categories for refactor level\ncategory_order &lt;- as.data.frame(matrix(nrow = 8, ncol = 2))\ncategory_order[,1] &lt;- c(\"Auto\", \"Beauty\", \"Clothing\", \"Entertainment\", \"Food\",\n                    \"Home\", \"Office\", \"Pet Care\")\ncategory_order[,2] &lt;- as.integer(summary(as.factor(diwali$Product_Category)))\ncategory_vector &lt;- (category_order[order(category_order[,2]),1])\n\n# Refactorizes the product category to sort the groups by count\ndiwali$Product_Category &lt;- as.factor(diwali$Product_Category)\ndiwali$Product_Category &lt;- factor(diwali$Product_Category,\n                                  levels = category_vector)\n\n# Bar plot showing the number of customers for product category across gender\n# and marital status\nggplot(data = diwali, aes(y = Product_Category, fill = Gender)) +\n  geom_bar(position = \"dodge\", width = 0.7) +\n  scale_fill_manual(values = c(\"lightblue\", \"pink\")) +\n  # Reorder legend to match the order of the bar plot\n  guides(fill = guide_legend(reverse = TRUE)) +\n  ggtitle(\"Total Count of Sale Type\",\n          \"Across Marital Status and Gender\") +\n  facet_wrap(~Marital_Status, ncol = 1) +\n  ylab(\"Product Category\") +\n  xlab(\"Counts\")\n\n\n\n\n\n\n\n\n\n# Check the average order price of product category\ndiwali_price &lt;- diwali |&gt;\n  group_by(Product_Category) |&gt;\n  summarize(\"Price\" = median(Amount/Orders))\ndiwali_price &lt;- as.data.frame(diwali_price)\ncategory_vector &lt;- diwali_price[order(diwali_price[,2]),1]\n\n# Refactorizes the product category to sort the groups by count\ndiwali$Product_Category &lt;- factor(diwali$Product_Category,\n                                  levels = rev(category_vector))\n\n# Boxplot of average order values per category\nggplot(data = diwali,\n       aes(x = Product_Category, y = Amount/Orders)) +\n  geom_boxplot() +\n  scale_y_continuous(labels = label_number(scale = 1e-3, prefix= \"₹\",suffix = \"K\")) +\n  guides(fill = guide_legend(reverse = TRUE)) +\n  ggtitle(\"Boxplot of Order Price\",\n          \"Ordered by median order price\") +\n  xlab(\"Product Category\") +\n  ylab(\"Order Price (Rupee)\")\n\n\n\n\n\n\nDiscussion\n(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.\nThe barplot indicated that the number of female customers was more than double the number of male customers for most product categories. Additionally, customers who were single made more transactions than customers who were married across all product categories. The majority of transactions were made with clothing, entertainment, and food. Considering the transaction are for the festival, it is unsurprising that local food, games, and regional clothing would be the most sought commodities.\nThe boxplot showed that prices across product categories were within the whisker range aside from auto and pet care. Auto had the largest range and highest median price, which makes sense since auto sales are going to be more costly and variable compared to any of the other categories. The overlapping ranges of item price suggests that item price likely does not have an effect on a customer’s purchasing pattern."
+  },
+  {
+    "objectID": "index.html#how-does-age-affect-a-customers-total-spending-during-the-festival",
+    "href": "index.html#how-does-age-affect-a-customers-total-spending-during-the-festival",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "How does age affect a customer’s total spending during the festival?",
+    "text": "How does age affect a customer’s total spending during the festival?\n\nIntroduction\n(1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you’re interested in this question.\n\n\nApproach\n(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.\nWe plan on assessing how age is related to spending total when age is either a categorical variable (age group) or continuous (age). A boxplot is implemented when age group is used. This visualization is useful in that it shows several important statistical values such as the interquartile range and makes comparison of the total spending ranges. In addition, gender is also assessed since results from the previous analysis suggests that\nWhen age is treated as a continuous variable, a regression is implemented\n\n\nAnalysis\n(2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with ggplot2. Do not use base R or lattice plotting functions.\n\n# Modify data for Q2\ndiwali.Q2 &lt;- diwali |&gt;\n  group_by(User_ID, Age) |&gt;\n  summarize(\n    \"Gender\" = first(Gender),\n    \"Age_Group\" = first(Age.Group),\n    \"Marital_Status\" = first(Marital_Status),\n    \"Total\" = sum(Amount))\n\n\n# Boxplot to show customer spending within age group\nggplot(data = diwali.Q2,\n       aes(x = Age_Group, y = Total, fill = Gender)) +\n  geom_boxplot() +\n  scale_y_continuous(labels = label_number(scale = 1e-3, prefix= \"₹\",suffix = \"K\")) +\n  scale_fill_manual(values = c(\"lightblue\", \"pink\")) +\n  coord_cartesian(ylim = c(0, 80000)) +\n  guides(fill = guide_legend(reverse = TRUE)) +\n  ggtitle(\"Spending By Age Group\") +\n  xlab(\"Age Group\") +\n  ylab(\"Total (Rupees)\")\n\n\n\n\n\n\n\n\n\n# Sort Gender factor level\ndiwali.Q2$Gender &lt;- factor(diwali.Q2$Gender, levels = c(\"M\", \"F\"))\n\n# Plot Q2 data\nggplot(data = diwali.Q2, aes(x = Age, y = Total, color = Gender)) +\n  geom_smooth(linewidth = 2)  +\n  scale_y_continuous(labels = label_number(scale = 1e-3, prefix= \"₹\",suffix = \"K\")) +\n  facet_wrap(~Marital_Status, ncol = 2) +\n  scale_color_manual(values = c(\"lightblue\", \"pink\")) +\n  guides(color = guide_legend(reverse = TRUE)) +\n  labs(title = \"Spending Insights: Gender, Age, and Marital Status\") +\n  ylab(\"Total (Rupees)\")\n\n\n\n\n\n\n\n\n\n# Split data into two subsets\ndiwali_single &lt;- diwali.Q2[which(diwali.Q2$Marital_Status == \"Single\" &\n                               diwali.Q2$Gender == \"M\"),]\n\ndiwali_married &lt;- diwali.Q2[which(diwali.Q2$Marital_Status == \"Married\" &\n                               diwali.Q2$Gender == \"M\"),]\n\n# Generate linear models\nsingle_lm &lt;- lm(Total~Age, data = diwali_single)\nmarried_lm &lt;- lm(Total~Age, data = diwali_married)\n\n# Round values of tidy objects\ntidy_single &lt;- tidy(single_lm)\ntidy_single[,2:ncol(tidy_single)] &lt;- round(tidy_single[, 2:ncol(tidy_single)], 2)\ntidy_married &lt;- tidy(married_lm)\ntidy_married[,2:ncol(tidy_married)] &lt;- round(tidy_married[, 2:ncol(tidy_married)], 2)\n\n# Generate a nice table with kable\nsingle_table &lt;- kable(tidy_single, \"html\") %&gt;%\n  kable_styling(full_width = FALSE)\n\n# Generate a nice table with kable\nmarried_table &lt;- kable(tidy_married, \"html\") %&gt;%\n  kable_styling(full_width = FALSE)\n\n# Display the table\nsingle_table\nmarried_table\n\nSingle Men\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n12586.53\n676.70\n18.60\n0.00\n\n\nAge\n-13.32\n17.37\n-0.77\n0.44\n\n\n\n\n\n\n\nMarried Men\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n12531.36\n1304.79\n9.60\n0.00\n\n\nAge\n-9.02\n32.40\n-0.28\n0.78\n\n\n\n\n\n\n\n\n\nDiscussion\n(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.\nThe boxplot shows that interquartile range of the total rupees spent in a transaction does not fluctuate across age groups or gender. Outliers appear to be less prevalent for the youngest and oldest age groups. Results suggest that\nRegressions of the total customer spending suggests that marital status does not have an effect on total rupees spent on a transaction. Interestingly, women exhibit a polynomial relationship between age and spending total while men showed a flat line. Slope analysis for men suggest that the slope is insignificant at a 0.05 \\(\\alpha\\)-level, and that men purchase total is unaffected by age. The differences in regressions could be due to different shopping approaches between genders such as men working with a specific budget in mind and women shopping according to needs."
+  },
+  {
+    "objectID": "index.html#limitationsfurther-analysis",
+    "href": "index.html#limitationsfurther-analysis",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Limitations/Further Analysis",
+    "text": "Limitations/Further Analysis\nA limitation of the dataset is that the dataset does not list the date that a transaction was made. This lack of information prevented us from performing an analysis of transaction trends over years. Access to such information could enhance the analysis by giving information that can visualizations that could map regress product category transaction counts onto year."
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "References",
+    "text": "References\nDiwali Sales Repository:\nhttps://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-11-14"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This project was developed by [Diwali Dhamaka] For INFO 526 - Data Analysis and Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nPeter Yeh: 3rd year Ph.D. student in the Statistics and Data Science-Statistical Informatics GIDP program.\nMiki Katyal: 2nd year MS student in Information.\nVidhyananth Sivashanmugam: 2nd year MS student in Data Science.\nKondapaneni Siva Rohit: 1st year MS student in Data Science.\nAnusha Nagaraja: 2nd year MS student in Information Science.\nTeam member 6: One sentence description of Team member 6 (e.g., year, major, etc.)."
+    "text": "This project was developed by [Diwali Dhamaka] For INFO 526 - Data Analysis and Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nPeter Yeh: 3rd year Ph.D. student in the Statistics and Data Science-Statistical Informatics GIDP program.\nMiki Katyal: 2nd year MS student in Information.\nVidhyananth Sivashanmugam: 2nd year MS student in Data Science.\nKondapaneni Siva Rohit: 1st year MS student in Data Science.\nAnusha Nagaraja: 2nd year MS student in Information Science.\nGowtham Theeda: 1st year MS student in Data Science."
   },
   {
     "objectID": "data/README 2.html",
@@ -112,65 +147,135 @@
     "text": "Data Types:\n\nColumn: data type"
   },
   {
+    "objectID": "presentation.html#context",
+    "href": "presentation.html#context",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Context",
+    "text": "Context\n\n\n\n\n\nImage credit: Prem Bharti\n\n\n\n\nDiwali festival is a paramount Indian festival\nComparable to the Christmas shopping period\nAnalyze transaction patterns and offer explanations"
+  },
+  {
+    "objectID": "presentation.html#dataset-description",
+    "href": "presentation.html#dataset-description",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Dataset Description",
+    "text": "Dataset Description\n\nDiwali festival transactional data collected across years\nSourced from 2023 TidyTuesday data repository\nContains 13 variables and 11251 transactions\nA customer can have multiple transactions\nVariables utilized for the analysis include customer ID, age, age group, gender, marital status, product category, order size, and amount spent"
+  },
+  {
+    "objectID": "presentation.html#question-1-motivation",
+    "href": "presentation.html#question-1-motivation",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 1: Motivation",
+    "text": "Question 1: Motivation\nFor each product category, what is the largest customer group based on gender and marital status?\n\nMotivation"
+  },
+  {
+    "objectID": "presentation.html#question-1-barplot",
+    "href": "presentation.html#question-1-barplot",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 1: Barplot",
+    "text": "Question 1: Barplot"
+  },
+  {
+    "objectID": "presentation.html#question-1-boxplot",
+    "href": "presentation.html#question-1-boxplot",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 1: Boxplot",
+    "text": "Question 1: Boxplot"
+  },
+  {
+    "objectID": "presentation.html#question-2-motivation",
+    "href": "presentation.html#question-2-motivation",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 2: Motivation",
+    "text": "Question 2: Motivation\nWhat is the total amount of rupee a customer spends, given their demographics, such as gender, age, and marital status?\n\nWhy this question?"
+  },
+  {
+    "objectID": "presentation.html#question-2-boxplot",
+    "href": "presentation.html#question-2-boxplot",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 2: Boxplot",
+    "text": "Question 2: Boxplot"
+  },
+  {
+    "objectID": "presentation.html#question-2-regression",
+    "href": "presentation.html#question-2-regression",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 2: Regression",
+    "text": "Question 2: Regression"
+  },
+  {
+    "objectID": "presentation.html#question-2-linear-relationship-check",
+    "href": "presentation.html#question-2-linear-relationship-check",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Question 2: Linear Relationship Check",
+    "text": "Question 2: Linear Relationship Check\nSingle Men\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n12586.53\n676.70\n18.60\n0.00\n\n\nAge\n-13.32\n17.37\n-0.77\n0.44\n\n\n\n\n\n\n\nMarried Men\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n12531.36\n1304.79\n9.60\n0.00\n\n\nAge\n-9.02\n32.40\n-0.28\n0.78"
+  },
+  {
+    "objectID": "presentation.html#limitations",
+    "href": "presentation.html#limitations",
+    "title": "Diwali Sales Trend Analysis",
+    "section": "Limitations",
+    "text": "Limitations\n\nLack of transaction date data\nInconsistent occupation data within same year\nNo key to product ID\nStates is not pan-India"
+  },
+  {
     "objectID": "presentation.html#quarto",
     "href": "presentation.html#quarto",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Quarto",
     "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
   },
   {
     "objectID": "presentation.html#layouts",
     "href": "presentation.html#layouts",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Layouts",
     "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\nAnd add footnotes"
   },
   {
     "objectID": "presentation.html#code",
     "href": "presentation.html#code",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Code",
     "text": "Code"
   },
   {
     "objectID": "presentation.html#plots",
     "href": "presentation.html#plots",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Plots",
     "text": "Plots"
   },
   {
     "objectID": "presentation.html#plot-and-text",
     "href": "presentation.html#plot-and-text",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Plot and text",
     "text": "Plot and text\n\n\n\nSome text\ngoes here"
   },
   {
     "objectID": "presentation.html#tables",
     "href": "presentation.html#tables",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Tables",
     "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,"
   },
   {
     "objectID": "presentation.html#images",
     "href": "presentation.html#images",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Images",
     "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
   },
   {
     "objectID": "presentation.html#math-expressions",
     "href": "presentation.html#math-expressions",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Math Expressions",
     "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
   },
   {
     "objectID": "presentation.html#feeling-adventurous",
     "href": "presentation.html#feeling-adventurous",
-    "title": "Project title",
+    "title": "Diwali Sales Trend Analysis",
     "section": "Feeling adventurous?",
     "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
   }
