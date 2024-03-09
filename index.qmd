@@ -240,12 +240,6 @@ ggplot(data = diwali, aes(y = Product_Category, fill = Gender)) +
   xlab("Counts")
 
 ```
-### Discussion
-(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
-
-This graph dives into the spending habits of married couples compared to single people, revealing some interesting trends across various categories. While married couples seem to be bigger spenders overall, shelling out more on most categories like clothes, entertainment, and groceries, their spending isn't entirely uniform. Notably, within both married and single groups, men tend to be the bigger spenders when it comes to car care and pet supplies.
-
-On the other hand, women consistently take the lead in spending on beauty products, regardless of their marital status. So, while married couples might be hitting the stores more often, there seems to be some specialization within their spending habits, with both men and women prioritizing different categories.
 
 ```{r}
 #| label: question1-boxplot
