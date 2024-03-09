@@ -161,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#what-are-the-most-popular-product-category-according-to-customer-demographics" id="toc-what-are-the-most-popular-product-category-according-to-customer-demographics" class="nav-link" data-scroll-target="#what-are-the-most-popular-product-category-according-to-customer-demographics">What are the most popular product category according to customer demographics?</a>
+  <li><a href="#what-is-the-most-prevalent-customer-group-for-each-product-category" id="toc-what-is-the-most-prevalent-customer-group-for-each-product-category" class="nav-link" data-scroll-target="#what-is-the-most-prevalent-customer-group-for-each-product-category">What is the most prevalent customer group for each product category?</a>
   <ul class="collapse">
   <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1">Introduction</a></li>
   <li><a href="#approach" id="toc-approach" class="nav-link" data-scroll-target="#approach">Approach</a></li>
@@ -175,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#analysis-1" id="toc-analysis-1" class="nav-link" data-scroll-target="#analysis-1">Analysis</a></li>
   <li><a href="#discussion-1" id="toc-discussion-1" class="nav-link" data-scroll-target="#discussion-1">Discussion</a></li>
   </ul></li>
-  <li><a href="#limitationsfurther-analysis" id="toc-limitationsfurther-analysis" class="nav-link" data-scroll-target="#limitationsfurther-analysis">Limitations/Further Analysis</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -209,30 +209,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>In this project, our team analyzes the Diwali festival transaction dataset provided by the 2023 TidyTuesday repository. Our aim is to discover purchasing and spending trends of customers. We do this by focusing on two questions:</p>
+<p>Diwali, the Indian festival of lights, holds cultural and economic significance comparable to the Christmas shopping period. Leveraging the diwali_sales_data.csv dataset from the 2023 TidyTuesday repository, this study explores transaction trends during Diwali and spending patterns. Several visualizations were made utilizing the dataset’s features to answer two questions:</p>
+<ol type="1">
+<li><p>What is the most prevalent customer group for each product category?</p></li>
+<li><p>How does age affect a customer’s total spending during the festival?</p></li>
+</ol>
+<p>Question 1 was assessed using barplots. Results revealed notable differences, such as a higher number of female customers and increased transactions among singles. Clothing, entertainment, and food dominate transactions, aligning with the festival’s festive nature.</p>
+<p>To address potential confounding factors for question 1 analysis, a boxplot was generated to examine product category prices. Price ranges did not significantly differ suggesting that prices did not impact transaction numbers.</p>
+<p>Question 2 was assessed using both boxplots and regressions. The boxplot shows consistent spending across age groups, with female customers exhibiting more frequent and larger outlier values. Regression analysis reveals that male spending remains consistent across all ages, while female spending peaks around age 50. Further analysis on men’s spending indicates age has no significant effect, supported by p-values exceeding <span class="math inline">\(\alpha\)</span> = 0.05.</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>(1-2 paragraphs): Brief introduction to the dataset. You may repeat some of the information about the dataset provided in the introduction to the dataset on the TidyTuesday repository, paraphrasing on your own terms. Imagine that your project is a standalone document and the grader has no prior knowledge of the dataset.</p>
+<p>Diwali is the Indian festival of lights. In addition to its cultural significance, it is a period of economic activity comparable to the Christmas shopping period. Due to this economic activity, many businesses would find it worthwhile to look into sales data to find transaction trends and develop policies to increase revenue in future festivals.</p>
+<p>The diwali_sales_data.csv is one such dataset sourced from the 2023 TidyTuesday data repository. The .csv spans multiple years and contains 13 variables and 11251 transactions. A customer can have multiple transactions and across multiple festivals. Of the transactions, 12 transactions did not have information regarding the transaction amount and are excluded from the data. Information for customers under the age of 18 were also excluded due to a significant number of nonsensical entries.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Class</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">User_ID</td>
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;">User ID number</td>
+<td style="text-align: left;">Seven digit unique number</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cust_name</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Customer name</td>
+<td style="text-align: left;">Name</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Product_ID</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Product ID number</td>
+<td style="text-align: left;">Product Code</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gender</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Gender (e.g. Male, Female)</td>
+<td style="text-align: left;">F/M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age.Group</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Age group</td>
+<td style="text-align: left;">0-17, 18-25, 26-35, 36-45, 46-50, 51-55, 55+</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;">Age</td>
+<td style="text-align: left;">12-92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marital_Status</td>
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;">Marital status (e.g. Married, Single)</td>
+<td style="text-align: left;">0/1 recoded as Single/Married</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">State</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">State</td>
+<td style="text-align: left;">16 states</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Zone</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Geographic zone</td>
+<td style="text-align: left;">Northern, Southern, Eastern, Western, Central</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Occupation</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Occupation</td>
+<td style="text-align: left;">15 professions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Product_Category</td>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">Category of the product</td>
+<td style="text-align: left;">18 product categories</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Orders</td>
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;">Number of orders</td>
+<td style="text-align: left;">1-4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Amount</td>
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;">Indian rupees spent by the customer</td>
+<td style="text-align: left;">188-23952</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
 </section>
-<section id="what-are-the-most-popular-product-category-according-to-customer-demographics" class="level2">
-<h2 class="anchored" data-anchor-id="what-are-the-most-popular-product-category-according-to-customer-demographics">What are the most popular product category according to customer demographics?</h2>
-<p>The title should relate to the question you’re answering.</p>
+<section id="what-is-the-most-prevalent-customer-group-for-each-product-category" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-most-prevalent-customer-group-for-each-product-category">What is the most prevalent customer group for each product category?</h2>
 <section id="introduction-1" class="level3">
 <h3 class="anchored" data-anchor-id="introduction-1">Introduction</h3>
-<p>(1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you’re interested in this question.</p>
-<p>Because we are looking at transactional data, a natural question to ask is what is the demographic that engages in the highest number of transactions for any given product. Finding these patterns can be useful in guiding businesses in directing their efforts on attracting customers whose demographics make such purchases, or by highlighting potentially untapped customer groups. In order to develop strategies at the ground level, visible customer features, such as gender and marital status, were utilized to subset the customer groups. Transaction counts were tied to the product category since customer interest would likely fluctuate depending on the products sold.</p>
-<p>Because product price of certain categories can differ greatly from those of another category, product price could affect a customer’s decision to make a purchase. This potential confounding from product price is assessed by finding individual order prices by taking the amount spent per order and comparing the range of values across the product categories.</p>
+<p>A natural direction when looking at transactional data is to find which demographic engages in the highest number of transactions for any given business. Finding these patterns can be helfpul for businesses in increasing revenue in multiple ways such as knowing which products to focus on, which kind of customers to target, or highlighting potentially untapped customer groups. In order to answer this question, features <code>Gender</code>, <code>Marital_Status</code>, <code>Product_Category</code>, <code>Orders</code>, and <code>Amount</code> are used. <code>Orders</code> and <code>Amount</code> are specifically used to address one potential confounding factor by calculating <code>Price</code>.</p>
 </section>
 <section id="approach" class="level3">
 <h3 class="anchored" data-anchor-id="approach">Approach</h3>
-<p>(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g.&nbsp;boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.</p>
-<p>A barplot was used to assess the relationship between product category and its interest within a customer demographic. This plot visualizes the number of transactions for each product category and is able to separate the bars according to the features of interest. The count of each transaction is particularly important since any sale leads to profit regardless of order size. The barplot’s visualizations also help give us both an absolute and relevant gauge of interest as the length of the bars can be compared to each other.</p>
-<p>A boxplot was then used to assess if item price could have affected the number of transactions a product category had. The boxplot provides several important statistics such as the interquartile range that gives a clearer picture on how similar or different item prices between categories are. Because prices are likely to remain the same regardless of the customer, gender and marital status are not utilized for this plot.</p>
+<p>A barplot was used to assess the relationship between product category and its interest within a customer demographic. This plot visualizes the number of transactions for each product category, differences in gender using different bar colors, and marital status using facet wraps. The count of each transaction is particularly important since any sale leads to profit regardless of order size. The barplot’s visualizations also help give us both an absolute and relevant gauge of interest as the lengths of the bars can be compared to each other.</p>
+<p>It is reasonable to believe that product prices could affect the number of transactions and be a confounding factor for customer demographic analysis. To assess if product price is introducing potential effects on the number of sales, a boxplot of product category prices is generated. The boxplot provides several important statistics such as the interquartile range that gives a clearer picture of how similar or different item prices between categories are. Because prices are likely to remain the same regardless of the customer, gender and marital status are not utilized for this plot.</p>
 </section>
 <section id="analysis" class="level3">
 <h3 class="anchored" data-anchor-id="analysis">Analysis</h3>
-<p>(2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with ggplot2. Do not use base R or lattice plotting functions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in project data</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/diwali_sales_data.csv"</span>)</span>
@@ -240,56 +339,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove NA values</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali[<span class="sc">-</span><span class="fu">which</span>(<span class="fu">is.na</span>(diwali<span class="sc">$</span>Amount)),]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Recode marital status in case age value is illegal</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali <span class="sc">|&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Marital_Status =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      Age.Group <span class="sc">==</span> <span class="st">"0-17"</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      Age <span class="sc">&lt;</span> <span class="dv">21</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span><span class="st">"M"</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Marital_Status</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify dataset according to project analysis</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali <span class="sc">|&gt;</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Refactorizes the product category based on similarity between products</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Product_Category =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Footwear &amp; Shoes"</span>) <span class="sc">~</span> <span class="st">"Clothing"</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Clothing &amp; Apparel"</span>) <span class="sc">~</span> <span class="st">"Clothing"</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Books"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Electronics &amp; Gadgets"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Games &amp; Toys"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Sports Products"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Decor"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Furniture"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hand &amp; Power Tools"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Household items"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Tupperware"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Stationery"</span>) <span class="sc">~</span> <span class="st">"Office"</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Veterinary"</span>) <span class="sc">~</span> <span class="st">"Pet Care"</span>,</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Product_Category</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Refactorizes the marital status to detail the meaning</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Marital_Status =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>      Marital_Status <span class="sc">%in%</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Married"</span>,</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>      Marital_Status <span class="sc">%in%</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Single"</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the price of item within each transaction</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">Price =</span> Amount<span class="sc">/</span>Orders</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove lowest age group due to inherent issues</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali[<span class="sc">-</span><span class="fu">which</span>(diwali<span class="sc">$</span>Age.Group <span class="sc">==</span> <span class="st">"0-17"</span>),]</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort Gender factor level</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>diwali<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">factor</span>(diwali<span class="sc">$</span>Gender, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>))</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort Marital_Status factor level</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>diwali<span class="sc">$</span>Marital_Status <span class="ot">&lt;-</span> <span class="fu">factor</span>(diwali<span class="sc">$</span>Marital_Status,</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>                                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Single"</span>, <span class="st">"Married"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove lowest age group due to inherent issues</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali[<span class="sc">-</span><span class="fu">which</span>(diwali<span class="sc">$</span>Age.Group <span class="sc">==</span> <span class="st">"0-17"</span>),]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Recode marital status in case age value is illegal</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Marital_Status =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      Age <span class="sc">&lt;</span> <span class="dv">21</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span><span class="st">"M"</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Marital_Status</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify dataset according to project analysis</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>diwali <span class="ot">&lt;-</span> diwali <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Refactorizes the product category based on similarity between products</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">Product_Category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Footwear &amp; Shoes"</span>) <span class="sc">~</span> <span class="st">"Clothing"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Clothing &amp; Apparel"</span>) <span class="sc">~</span> <span class="st">"Clothing"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Books"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Electronics &amp; Gadgets"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Games &amp; Toys"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Sports Products"</span>) <span class="sc">~</span> <span class="st">"Entertainment"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Decor"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Furniture"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hand &amp; Power Tools"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Household items"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Tupperware"</span>) <span class="sc">~</span> <span class="st">"Home"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Stationery"</span>) <span class="sc">~</span> <span class="st">"Office"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      Product_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Veterinary"</span>) <span class="sc">~</span> <span class="st">"Pet Care"</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Product_Category</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Refactorizes the marital status to detail the meaning</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">Marital_Status =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>      Marital_Status <span class="sc">%in%</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Married"</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      Marital_Status <span class="sc">%in%</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Single"</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the price of item within each transaction</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">Price =</span> Amount<span class="sc">/</span>Orders</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort Gender factor level</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>diwali<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">factor</span>(diwali<span class="sc">$</span>Gender, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>))</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort Marital_Status factor level</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>diwali<span class="sc">$</span>Marital_Status <span class="ot">&lt;-</span> <span class="fu">factor</span>(diwali<span class="sc">$</span>Marital_Status,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>                                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Single"</span>, <span class="st">"Married"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the number of product categories for refactor level</span></span>
@@ -308,11 +406,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># and marital status</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diwali, <span class="fu">aes</span>(<span class="at">y =</span> Product_Category, <span class="at">fill =</span> Gender)) <span class="sc">+</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"pink"</span>)) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dodgerblue"</span>, <span class="st">"deeppink1"</span>)) <span class="sc">+</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reorder legend to match the order of the bar plot</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Total Count of Sale Type"</span>,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Across Marital Status and Gender"</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Across gender and marital status"</span>) <span class="sc">+</span></span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Marital_Status, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Product Category"</span>) <span class="sc">+</span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -324,7 +422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the average order price of product category</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>diwali_price <span class="ot">&lt;-</span> diwali <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Product_Category) <span class="sc">|&gt;</span></span>
@@ -340,39 +438,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diwali,</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Product_Category, <span class="at">y =</span> Amount<span class="sc">/</span>Orders)) <span class="sc">+</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">prefix=</span> <span class="st">"₹"</span>,<span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Boxplot of Order Price"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Product Price Range"</span>,</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Ordered by median order price"</span>) <span class="sc">+</span></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Product Category"</span>) <span class="sc">+</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Order Price (Rupee)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/question1-boxplot-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/question1-boxplot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="discussion" class="level3">
 <h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
-<p>(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.</p>
-<p>The barplot indicated that the number of female customers was more than double the number of male customers for most product categories. Additionally, customers who were single made more transactions than customers who were married across all product categories. The majority of transactions were made with clothing, entertainment, and food. Considering the transaction are for the festival, it is unsurprising that local food, games, and regional clothing would be the most sought commodities.</p>
-<p>The boxplot showed that prices across product categories were within the whisker range aside from auto and pet care. Auto had the largest range and highest median price, which makes sense since auto sales are going to be more costly and variable compared to any of the other categories. The overlapping ranges of item price suggests that item price likely does not have an effect on a customer’s purchasing pattern.</p>
+<p>The barplot indicated that the number of female customers was more than double the number of male customers for most product categories. This difference could be attributed to a difference in culture in which men are expected to purchase corporate gifts (sweets and souvenirs) for business associates while women are expected to purchase gifts for families and friends, who are more likely to desire the specified product categories in this dataset. Additionally, customers who were single made more transactions than customers who were married across all product categories. This could be because single people only need to consider their own purchases and not others in the family. The majority of transactions were made with clothing, entertainment, and food. Considering the transactions are for the festival, it is likely that local food, games, and regional clothing would be highlights of the festival.</p>
+<p>The boxplot shows that prices across product categories were within the whisker range aside from auto and pet care. Median values for each product category did not have a pattern consistent with the barplot. These two details suggest that order price does not have a confounding effect on the transaction numbers of our subgroups.</p>
+<p>An interesting detail to note is that auto had the largest range and highest median price, which is likely due to the range of potential items associated with auto such as car accessories, auto parts, or services.</p>
 </section>
 </section>
 <section id="how-does-age-affect-a-customers-total-spending-during-the-festival" class="level2">
 <h2 class="anchored" data-anchor-id="how-does-age-affect-a-customers-total-spending-during-the-festival">How does age affect a customer’s total spending during the festival?</h2>
 <section id="introduction-2" class="level3">
 <h3 class="anchored" data-anchor-id="introduction-2">Introduction</h3>
-<p>(1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you’re interested in this question.</p>
+<p>When analyzing customer demographics, age is another feature that is often focused on since age is often associated with several other features such as generational differences, employment status, disposable income, etc. Because of potential changes in spending habits, we are interested in seeing how age can affect how much a customer will spend at the festival. In addition to <code>Gender</code> and <code>Marital_Status</code> used in the previous question, we also look at <code>Age</code>, <code>Age.Group</code>, <code>User_ID</code>, and <code>Amount</code>. <code>Age</code> and <code>Age.Group</code> are used as the independent variables of our plots. <code>User_ID</code> and <code>Age</code> are used to group customers so that <code>Amount</code> can be summed to determine the amount a customer spends at that year’s festival (<code>Total</code>).</p>
 </section>
 <section id="approach-1" class="level3">
 <h3 class="anchored" data-anchor-id="approach-1">Approach</h3>
-<p>(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g.&nbsp;boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.</p>
-<p>We plan on assessing how age is related to spending total when age is either a categorical variable (age group) or continuous (age). A boxplot is implemented when age group is used. This visualization is useful in that it shows several important statistical values such as the interquartile range and makes comparison of the total spending ranges. In addition, gender is also assessed since results from the previous analysis suggests that</p>
-<p>When age is treated as a continuous variable, a regression is implemented</p>
+<p>We plan on assessing how age is related to spending total when age is either a categorical variable (age group) or continuous variable (age). Performing the analysis using age group gives more insight to spending habits of customers based on maturity. Gender and marital status are also assessed since results from the previous question have shown an impact of these features on the number of transactions and could have a possible impact on total spending.</p>
+<p>A boxplot is implemented when age group is used. This visualization is useful to show several important statistical values such as the interquartile range. Comparison of the total spending ranges across customers at different age groups is visualized by simply comparing the boxes horizontally. In addition, a regression is implemented using age as a continuous variable. This visualization is useful in directly mapping the relationship between a customer’s age and total spending.</p>
 </section>
 <section id="analysis-1" class="level3">
 <h3 class="anchored" data-anchor-id="analysis-1">Analysis</h3>
-<p>(2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with ggplot2. Do not use base R or lattice plotting functions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify data for Q2</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>diwali.Q2 <span class="ot">&lt;-</span> diwali <span class="sc">|&gt;</span></span>
@@ -388,13 +488,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diwali.Q2,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Age_Group, <span class="at">y =</span> Total, <span class="at">fill =</span> Gender)) <span class="sc">+</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">prefix=</span> <span class="st">"₹"</span>,<span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"pink"</span>)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dodgerblue"</span>, <span class="st">"deeppink1"</span>)) <span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80000</span>)) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Spending By Age Group"</span>) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age Group"</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Total (Rupees)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Marital_Status, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Spending Range of Customer Demographic"</span>, <span class="st">"By age group"</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age Group"</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Customer Spending (Rupees)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -410,12 +511,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Q2 data</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diwali.Q2, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> Total, <span class="at">color =</span> Gender)) <span class="sc">+</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">linewidth =</span> <span class="dv">2</span>)  <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">prefix=</span> <span class="st">"₹"</span>,<span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Marital_Status, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"pink"</span>)) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dodgerblue"</span>, <span class="st">"deeppink1"</span>)) <span class="sc">+</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Spending Insights: Gender, Age, and Marital Status"</span>) <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Total (Rupees)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Customer Demographic Spending Insights"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Over age"</span>) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Customer Spending (Rupees)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -525,14 +627,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="discussion-1" class="level3">
 <h3 class="anchored" data-anchor-id="discussion-1">Discussion</h3>
-<p>(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.</p>
-<p>The boxplot shows that interquartile range of the total rupees spent in a transaction does not fluctuate across age groups or gender. Outliers appear to be less prevalent for the youngest and oldest age groups. Results suggest that</p>
-<p>Regressions of the total customer spending suggests that marital status does not have an effect on total rupees spent on a transaction. Interestingly, women exhibit a polynomial relationship between age and spending total while men showed a flat line. Slope analysis for men suggest that the slope is insignificant at a 0.05 <span class="math inline">\(\alpha\)</span>-level, and that men purchase total is unaffected by age. The differences in regressions could be due to different shopping approaches between genders such as men working with a specific budget in mind and women shopping according to needs.</p>
+<p>The boxplot shows that interquartile range of the total rupees spent at the festival does not fluctuate greatly across age groups regardless of gender and marital status. The consistency of values could be the result of customers having a perception of how much spending is normal that does not greatly deviate across age. Female customers appear to have larger outlier values and higher prevalence compared to their male counterparts across almost every subgroup. We, as a group, refuse to put forward a reason for this in absence of any clear or known substantiation for this behavior.</p>
+<p>From the regression, it is noticeable male spending is consistent across all ages regardless of marital status. The consistent spending could be attributed to the fact that festivals are more driven by women. Spending of female customers peaks approximately at age 50. The shift in spending could be attributed to disposable income in relation to the age of dependent family members.</p>
+<p>Due to the flat linear appearance of men’s spending, slope analysis was performed for both single and married men. The p-values were larger than <span class="math inline">\(\alpha\)</span> = 0.05 for both. This indicates that men’s spending is unaffected by age.</p>
 </section>
 </section>
-<section id="limitationsfurther-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="limitationsfurther-analysis">Limitations/Further Analysis</h2>
-<p>A limitation of the dataset is that the dataset does not list the date that a transaction was made. This lack of information prevented us from performing an analysis of transaction trends over years. Access to such information could enhance the analysis by giving information that can visualizations that could map regress product category transaction counts onto year.</p>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p>Limitations of the dataset included the following:</p>
+<ul>
+<li><p>Date of transaction not included</p></li>
+<li><p>Inconsistent occupation data within same year</p></li>
+<li><p>No key to product ID</p></li>
+<li><p>States is not pan-India</p></li>
+<li><p>Difficult to assess confounding due to lack of data</p></li>
+</ul>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>

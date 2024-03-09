@@ -162,9 +162,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling">Data Wrangling</a>
   <ul class="collapse">
+  <li><a href="#age.group" id="toc-age.group" class="nav-link" data-scroll-target="#age.group"><code>Age.Group</code>:</a></li>
   <li><a href="#marital_status" id="toc-marital_status" class="nav-link" data-scroll-target="#marital_status"><code>Marital_Status</code>:</a></li>
   <li><a href="#product_category" id="toc-product_category" class="nav-link" data-scroll-target="#product_category"><code>Product_Category</code></a></li>
-  <li><a href="#amount" id="toc-amount" class="nav-link" data-scroll-target="#amount"><code>Amount</code></a></li>
+  <li><a href="#price" id="toc-price" class="nav-link" data-scroll-target="#price"><code>Price</code></a></li>
+  <li><a href="#total" id="toc-total" class="nav-link" data-scroll-target="#total"><code>Total</code></a></li>
   </ul></li>
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a>
   <ul class="collapse">
@@ -324,19 +326,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>Gender</code> and <code>Marital_Status</code> are used as broad demographic subsets to see the number of transactions made for the <code>Product_Category</code>. <code>Gender</code> and <code>Marital_Status</code> were specifically chosen for being traits that are easily identifiable.</p>
-<p><code>Order</code>, despite representing the number of orders for a transaction was not selected as the outcome variable. This decision was made because the types of categories present varied greatly (ie. Auto and Tupperware). Because of the inherent differences between categories, it is unlikely that order numbers between categories would be comparable.</p>
-<p><code>User_ID</code>, <code>Gender</code>, <code>Age</code>, and <code>Amount</code> are used to answer the question of how the customer’s demographics will affect the amount they will spend at the festival. <code>User_ID</code> and <code>Age</code> are used to group the customer data so that each row will represent a unique customer. Using the customer’s age will also ensure that multiple years worth of transactions are separated accordingly. This will help ensure changes in demographics won’t be lost in merging the data by <code>Customer_ID</code> alone. <code>Amount</code> is used to generate the response variable by summing the values based on the grouping of the data.</p>
+<p><code>Orders</code> and <code>Amount</code> were used to calculate the average price of an item within a transaction by dividing <code>Amount</code> by <code>Orders</code>. This metric is of interest because price of items within a <code>Product_Category</code> could influence whether or not a customer could or would make a purchase.</p>
+<p><code>User_ID</code>, <code>Gender</code>, <code>Age</code>, <code>Age.Group</code>, and <code>Amount</code> are used to answer the question of how the customer’s age will affect the amount they will spend at the festival. <code>User_ID</code> and <code>Age</code> are used to group the customer data so that each row will represent a unique customer. Using the customer’s age will also ensure that multiple years worth of transactions are separated accordingly. This will help ensure changes in demographics won’t be lost in merging the data by <code>Customer_ID</code> alone. <code>Amount</code> is used to generate the response variable by summing the values based on the grouping of the data. <code>Age.Group</code> and <code>Age</code> are used as independent variables across two different plots to examine potential difference in patterns.</p>
 <p><code>State</code>, <code>Occupation</code>, and <code>Zone</code> are under consideration for potential variables.</p>
 <p><code>Cust_name</code> is not utilized because the variable is an identifier and is not expected to generate information meaningful for marketing and business strategies.</p>
 <p><code>Product_ID</code> is not utilized because the variable does not contain information regarding what the product is.</p>
-<p><code>Age.Group</code> is currently not under consideration for analysis since the variable is represented in <code>Age</code>. It is used for data cleaning of <code>Marital_Status</code>, as mentioned in the data wrangling section.</p>
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
 <p>For the data wrangling, we utilized the <code>dplyr</code> package.</p>
+<section id="age.group" class="level3">
+<h3 class="anchored" data-anchor-id="age.group"><code>Age.Group</code>:</h3>
+<p>It is notable that much of the information of customers below 18 are neither possible nor legal. Due to these issues, transactions with customers coded 0-17 for <code>Age.Group</code> were excluded from the analysis.</p>
+</section>
 <section id="marital_status" class="level3">
 <h3 class="anchored" data-anchor-id="marital_status"><code>Marital_Status</code>:</h3>
-<p>The minimum legal age to marry in India is 18 for women and 21 for men. Several customers were coded as married at illegal ages. These were likely errors in data entry. To address this issue, we recoded the entries for <code>Marital_Status</code> of customers from 1 to 0 in compliance with the legal marriage ages. Customers indicated to be under the age of 18 using variable <code>Age.Group</code> were defaulted to 0 for <code>Marital_Status</code> using the <code>mutate</code> and <code>case_when</code> functions. Additionally, a second condition in the <code>case_when</code> function was that if a customer was both male and under 21, <code>Marital_Status</code> would be coded as 0.</p>
+<p>The minimum legal age to marry in India is 18 for women and 21 for men. Several customers were coded as married at illegal ages. These were likely errors in data entry. To address this issue, we recoded the entries for <code>Marital_Status</code> of customers from 1 to 0 in compliance with the legal marriage ages. Customers indicated to be both male and under 21 using variable <code>Age.Group</code> were defaulted to 0 for <code>Marital_Status</code> using the <code>mutate</code> and <code>case_when</code> functions.</p>
 <p>For ease of interpretation, <code>Marital_Status</code> was further modifed using another <code>mutate</code> and <code>case_when</code> function to recode 0 as Single and 1 as Married.</p>
 </section>
 <section id="product_category" class="level3">
@@ -431,8 +436,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="amount" class="level3">
-<h3 class="anchored" data-anchor-id="amount"><code>Amount</code></h3>
+<section id="price" class="level3">
+<h3 class="anchored" data-anchor-id="price"><code>Price</code></h3>
+<p>In our first question, we are concerned with finding purchasing trends across <code>Product_Category</code>. One potential confounding issue is that item price can vary between categories, which could influence purchasing patterns. A new variable was generated by dividing a transaction’s <code>Amount</code> by <code>Orders</code>. This process calculates the price of each individual order in the transaction.</p>
+</section>
+<section id="total" class="level3">
+<h3 class="anchored" data-anchor-id="total"><code>Total</code></h3>
 <p>For our second question of interest, we are interested in assessing how a customer’s demographics affect how much they will spend. To do this, a second dataset was generated using the <code>group_by</code> function according to <code>User_ID</code> and <code>Age</code>. This is because a customer can have multiple purchases. Additionally, the changing ages for a customer suggests that the dataset covers transactions over several years. Because several column values such as <code>Occupation</code> have different entries for the same customer, it is prudent to assess the same customer with differing ages as separate transactions to more accurately analyze the effect of the demographic on <code>Amount</code>.</p>
 <p>After using the <code>group_by</code> function, the data used the <code>summarize</code> function in order to sum the <code>Amount</code> as <code>Total</code>. This new variable now displays the total amount spent a customer spent in that year’s Diwali festival.</p>
 </section>
@@ -445,18 +454,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="question-2" class="level3">
 <h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
-<p>What is the <code>Total</code> a customer spends, given their demographics, such as <code>Gender</code> and <code>Age</code>?</p>
+<p>How does a customer’s <code>Age</code> or <code>Age.Group</code> affect how much they will spend during the festival?</p>
 </section>
 </section>
 <section id="analysis-plan" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-plan">Analysis Plan</h2>
 <section id="question-1-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-1-1">Question 1</h3>
-<p>Using <code>ggplot2</code>, we will generate a bar plot using <code>geom_bar()</code> of the <code>Product_Category</code> with <code>dodge</code> position based on <code>Gender</code> with an added facet wrap based on <code>Marital_Status</code>. <code>Product_Category</code> is set as the vertical axis. Inclusion of <code>Zone</code> and <code>State</code> variable will be determined later.</p>
+<p>Using <code>ggplot2</code>, we will generate a barplot using <code>geom_bar()</code> of the <code>Product_Category</code> with <code>dodge</code> position based on <code>Gender</code> with an added facet wrap based on <code>Marital_Status</code>. <code>Product_Category</code> is set as the vertical axis.</p>
+<p>Using <code>ggplot2</code>, we will generate a boxplot using <code>geom_boxplot()</code> of the <code>Product_Category</code> set as the horizontal axis and <code>Price</code> as the vertical axis. <code>Marital_Status</code> and <code>Gender</code> were not included in the plot since the price of an item would not be dependent on customer demographics.</p>
 </section>
 <section id="question-2-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-2-1">Question 2</h3>
-<p>Using <code>ggplot2</code>, we will generate fitting a regression on the data using <code>geom_smooth()</code> with <code>Total</code> as the response variable. The horizontal-axis will be the <code>Age</code>. The <code>Gender</code> will be represented on the plot with either a facet wrap or the dodge position.</p>
+<p>Using <code>ggplot2</code>, we will generate generate a boxplot using <code>geom_boxplot()</code> with <code>Total</code> as the response variable. The horizontal-axis will be the <code>Age.Group</code>. <code>Gender</code> will be visualized using the <code>dodge</code> position while Marital_Status` will be visualized using a facet wrap.</p>
+<p>Using <code>ggplot2</code>, we will fit a regression on the data using <code>geom_smooth()</code> with <code>Total</code> as the response variable. The horizontal-axis will be the <code>Age</code>. The <code>Gender</code> will be represented on the plot with either a facet wrap or the dodge position.</p>
 </section>
 </section>
 <section id="timeline" class="level2">
@@ -552,70 +563,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Complete</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Initial Question 1 data wrangling</td>
+<td style="text-align: left;">Question 1 data wrangling</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Vidhyananth</td>
 <td style="text-align: left;">Complete</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Plot 1 draft</td>
+<td style="text-align: left;">Question 1 plot drafts</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Peter</td>
 <td style="text-align: left;">Complete</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Plot 1 interpretation</td>
+<td style="text-align: left;">Question 1 interpretation</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Gowtham</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Initial Question 2 data wrangling</td>
+<td style="text-align: left;">Question 2 data wrangling</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Miki</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Plot 2 draft</td>
+<td style="text-align: left;">Question 2 plot drafts</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Anusha</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Plot 2 interpretation</td>
+<td style="text-align: left;">Question 2 interpretation</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Siva</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Update Project section</td>
 <td style="text-align: left;">Feb 23</td>
 <td style="text-align: left;">Peter</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Internal project review</td>
 <td style="text-align: left;">Feb 26</td>
 <td style="text-align: left;">All</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">First draft of presentation</td>
 <td style="text-align: left;">Feb 29</td>
 <td style="text-align: left;">All</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Final draft of presentation</td>
 <td style="text-align: left;">March 8</td>
 <td style="text-align: left;">All</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Final submission</td>
 <td style="text-align: left;">March 11</td>
 <td style="text-align: left;">All</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Complete</td>
 </tr>
 </tbody>
 </table>
