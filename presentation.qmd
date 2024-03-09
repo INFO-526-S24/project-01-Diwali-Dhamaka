@@ -70,7 +70,7 @@ knitr::opts_chunk$set(
 
 -   Contains 13 variables and 11251 transactions
 
--   A customer can have multiple transactions
+-   A customer can have multiple transactions and ages
 
 -   Variables utilized for the analysis include customer ID, age, age group,
 gender, marital status, product category, order size, and amount spent
@@ -79,7 +79,10 @@ gender, marital status, product category, order size, and amount spent
 
 For each product category, what is the largest customer group based on gender and marital status?
 
--   Motivation
+-   Businesses often focus on what kind of product to sell based on broad
+customer demographics.
+
+-   Gender and marital status are typically considered.
 
 ## Question 1: Barplot
 
@@ -165,7 +168,7 @@ ggplot(data = diwali, aes(y = Product_Category, fill = Gender)) +
   # Reorder legend to match the order of the bar plot
   guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle("Total Count of Sale Type",
-          "Across Marital Status and Gender") +
+          "Across gender and marital status") +
   facet_wrap(~Marital_Status, ncol = 1) +
   ylab("Product Category") +
   xlab("Counts") +
@@ -201,7 +204,7 @@ ggplot(data = diwali,
   geom_boxplot() +
   scale_y_continuous(labels = label_number(scale = 1e-3, suffix = "K")) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle("Boxplot of Order Price",
+  ggtitle("Product Price Range",
           "Ordered by median order price") +
   xlab("Product Category") +
   ylab("Order Price (Rupee)")
@@ -209,9 +212,12 @@ ggplot(data = diwali,
 
 ## Question 2: Motivation
 
-What is the total amount of rupee a customer spends, given their demographics, such as gender, age, and marital status?
+How does age affect a customer's total spending during the festival?
 
--   Why this question?
+-   Age is often associated with several other factors such as disposable income.
+
+-   Businesses will be enabled to identify products within an expected spending
+range for customers.
 
 ## Question 2: Boxplot
 
@@ -245,7 +251,7 @@ ggplot(data = diwali.Q2,
   coord_cartesian(ylim = c(0, 80000)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle("Customer Spending Range", "By age group") +
+  ggtitle("Spending Range of Customer Demographic", "By age group") +
   xlab("Age Group") +
   ylab("Customer Spending (Rupees)") +
   theme(plot.title = element_text(size = 20),
@@ -272,8 +278,8 @@ ggplot(data = diwali.Q2, aes(x = Age, y = Total, color = Gender)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   scale_color_manual(values = c("dodgerblue", "deeppink1")) +
   guides(color = guide_legend(reverse = TRUE)) +
-  ggtitle("Customer Spending Insights",
-          "Across age and by gender and marital status") +
+  ggtitle("Customer Demographic Spending Insights",
+          "Over age") +
   ylab("Customer Spending (Rupees)") +
   theme(plot.title = element_text(size = 20),
         plot.subtitle = element_text(size = 15),
@@ -341,102 +347,6 @@ married_table
 
 -   States is not pan-India
 
+-   Difficult to assess confounding due to lack of data
+
 # Questions?
-
-# Using Quarto for presentations
-
-## Quarto
-
--   The presentation is created using the Quarto CLI
-
--   `##` sets the start of a new slide
-
-## Layouts
-
-You can use plain text
-
-::: columns
-::: {.column width="40%"}
--   or bullet points[^1]
-:::
-
-::: {.column width="60%"}
-or in two columns
-:::
-:::
-
-[^1]: And add footnotes
-
--   like
-
--   this
-
-## Code
-
-```{r, echo=FALSE}
-
-
-```
-
-## Plots
-
-```{r}
-
-```
-
-## Plot and text
-
-::: columns
-::: {.column width="50%"}
--   Some text
-
--   goes here
-:::
-
-::: {.column width="50%"}
-
-```{r, warning=FALSE, fig.width=5.5}
-
-```
-:::
-:::
-
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r}
-
-```
-
-## Images
-
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
-
-```         
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-$$
-
-Limitations:
-
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-2.  There should not be spaces after the opening `$` or before the closing `$`.
-
-# Wrap up
-
-## Feeling adventurous?
-
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
