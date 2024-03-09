@@ -380,11 +380,11 @@ Peter Yeh, Miki Katyal, Vidhyananth Sivashanmugam, Kondapaneni Siva Rohit, Anush
 <section id="question-1-barplot" class="slide level2">
 <h2>Question 1: Barplot</h2>
 
-<img data-src="presentation_files/figure-html/question1-plot-1.png" width="3600" class="r-stretch quarto-figure-center"></section>
+<img data-src="presentation_files/figure-revealjs/question1-plot-1.png" width="3600" class="r-stretch quarto-figure-center"></section>
 <section id="question-1-boxplot" class="slide level2">
 <h2>Question 1: Boxplot</h2>
 
-<img data-src="presentation_files/figure-html/question1-boxplot-1.png" width="1800" class="r-stretch"></section>
+<img data-src="presentation_files/figure-revealjs/question1-boxplot-1.png" width="1800" class="r-stretch"></section>
 <section id="question-2-motivation" class="slide level2">
 <h2>Question 2: Motivation</h2>
 <p>How does age affect a customer’s total spending during the festival?</p>
@@ -395,23 +395,12 @@ Peter Yeh, Miki Katyal, Vidhyananth Sivashanmugam, Kondapaneni Siva Rohit, Anush
 </section>
 <section id="question-2-boxplot" class="slide level2">
 <h2>Question 2: Boxplot</h2>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by 'User_ID'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-</div>
 
-<img data-src="presentation_files/figure-html/question2-boxplot-1.png" width="4500" class="r-stretch quarto-figure-center"></section>
+<img data-src="presentation_files/figure-revealjs/question2-boxplot-1.png" width="4500" class="r-stretch quarto-figure-center"></section>
 <section id="question-2-regression" class="slide level2">
 <h2>Question 2: Regression</h2>
-<div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
-</div>
 
-</div>
-<img data-src="presentation_files/figure-html/question2-plot-1.png" width="3600" class="r-stretch quarto-figure-center"></section>
+<img data-src="presentation_files/figure-revealjs/question2-plot-1.png" width="3600" class="r-stretch quarto-figure-center"></section>
 <section id="question-2-linear-relationship-check" class="slide level2">
 <h2>Question 2: Linear Relationship Check</h2>
 <p>Single Men</p>
@@ -711,6 +700,44 @@ Peter Yeh, Miki Katyal, Vidhyananth Sivashanmugam, Kondapaneni Siva Rohit, Anush
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -193,14 +193,14 @@
     "href": "presentation.html#question-2-boxplot",
     "title": "Diwali Sales Trend Analysis",
     "section": "Question 2: Boxplot",
-    "text": "Question 2: Boxplot\n\n\n`summarise()` has grouped output by 'User_ID'. You can override using the\n`.groups` argument."
+    "text": "Question 2: Boxplot"
   },
   {
     "objectID": "presentation.html#question-2-regression",
     "href": "presentation.html#question-2-regression",
     "title": "Diwali Sales Trend Analysis",
     "section": "Question 2: Regression",
-    "text": "Question 2: Regression\n\n\n`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = \"cs\")'"
+    "text": "Question 2: Regression"
   },
   {
     "objectID": "presentation.html#question-2-linear-relationship-check",
