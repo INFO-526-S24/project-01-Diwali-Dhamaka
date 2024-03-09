@@ -14,7 +14,6 @@ format:
 editor: visual
 execute:
   echo: false
-  warning: false
 ---
 
 ```{r}
@@ -96,11 +95,13 @@ diwali <- read.csv("data/diwali_sales_data.csv")
 # Remove NA values
 diwali <- diwali[-which(is.na(diwali$Amount)),]
 
+# Remove age group due to nonsensical values
+diwali <- diwali[-which(diwali$Age.Group == "0-17"),]
+
 # Recode marital status in case age value is illegal
 diwali <- diwali |>
   mutate(
     Marital_Status = case_when(
-      Age.Group == "0-17" ~ 0,
       Age < 21 & Gender =="M" ~ 0,
       TRUE ~ Marital_Status
     )
@@ -133,8 +134,6 @@ diwali <- diwali |>
       Marital_Status %in% 0 ~ "Single"
     )
   )
-
-diwali <- diwali[-which(diwali$Age.Group == "0-17"),]
 
 # Check the number of product categories for refactor level
 category_order <- as.data.frame(matrix(nrow = 8, ncol = 2))
@@ -187,7 +186,7 @@ ggplot(data = diwali, aes(y = Product_Category, fill = Gender)) +
 
 ```{r}
 #| label: question1-boxplot
-
+#| warning: false
 # Check the average order price of product category
 diwali_price <- diwali |>
   group_by(Product_Category) |>
@@ -224,6 +223,7 @@ range for customers.
 
 ```{r}
 #| label: question2-data-wrangling
+#| warning: false
 # Modify data for Q2
 diwali.Q2 <- diwali |>
   group_by(User_ID, Age) |>
@@ -252,7 +252,7 @@ ggplot(data = diwali.Q2,
   coord_cartesian(ylim = c(0, 80000)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle("Spending Range of Customer Demographic", "By age group") +
+  ggtitle("Customer Demographic Spending Range", "By age group") +
   xlab("Age Group") +
   ylab("Customer Spending (Rupees)") +
   theme(plot.title = element_text(size = 20),
@@ -269,6 +269,7 @@ ggplot(data = diwali.Q2,
 
 ```{r}
 #| label: question2-plot
+#| warning: false
 #| fig-align: "center"
 #| fig-width: 12
  
@@ -279,8 +280,8 @@ ggplot(data = diwali.Q2, aes(x = Age, y = Total, color = Gender)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   scale_color_manual(values = c("dodgerblue", "deeppink1")) +
   guides(color = guide_legend(reverse = TRUE)) +
-  ggtitle("Customer Demographic Spending Insights",
-          "Over age") +
+  ggtitle("Customer Spending Over Age",
+          "Split by gender and marital status") +
   ylab("Customer Spending (Rupees)") +
   theme(plot.title = element_text(size = 20),
         plot.subtitle = element_text(size = 15),
@@ -295,6 +296,7 @@ ggplot(data = diwali.Q2, aes(x = Age, y = Total, color = Gender)) +
 ## Question 2: Linear Relationship Check
 ```{r}
 #| label: question2-val
+#| warning: false
 # Split data into two subsets
 diwali_single <- diwali.Q2[which(diwali.Q2$Marital_Status == "Single" &
                                diwali.Q2$Gender == "M"),]

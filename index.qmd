@@ -325,7 +325,7 @@ customer's age and total spending.
 ### Analysis
 ```{r}
 #| label: question2-data-wrangling
-
+#| warning: false
 # Modify data for Q2
 diwali.Q2 <- diwali |>
   group_by(User_ID, Age) |>
@@ -357,8 +357,9 @@ ggplot(data = diwali.Q2,
 
 ```{r}
 #| label: question2-regression
+#| warning: false
 #| fig-align: "center"
-#| 
+
 # Sort Gender factor level
 diwali.Q2$Gender <- factor(diwali.Q2$Gender, levels = c("M", "F"))
 
