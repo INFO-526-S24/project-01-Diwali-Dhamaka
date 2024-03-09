@@ -350,7 +350,7 @@ ggplot(data = diwali.Q2,
   coord_cartesian(ylim = c(0, 80000)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle("Spending Range of Customer Demographic", "By age group") +
+  ggtitle("Spending Range of Customer Demographic", "Over age group") +
   xlab("Age Group") +
   ylab("Customer Spending (Rupees)")
 ```
@@ -370,8 +370,8 @@ ggplot(data = diwali.Q2, aes(x = Age, y = Total, color = Gender)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   scale_color_manual(values = c("dodgerblue", "deeppink1")) +
   guides(color = guide_legend(reverse = TRUE)) +
-  ggtitle("Customer Demographic Spending Insights",
-          "Over age") +
+  ggtitle("Customer Spending Over Age",
+          "Split by gender and marital status") +
   ylab("Customer Spending (Rupees)")
 ```
 

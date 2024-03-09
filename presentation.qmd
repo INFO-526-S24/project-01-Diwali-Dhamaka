@@ -252,7 +252,7 @@ ggplot(data = diwali.Q2,
   coord_cartesian(ylim = c(0, 80000)) +
   facet_wrap(~Marital_Status, ncol = 2) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle("Customer Demographic Spending Range", "By age group") +
+  ggtitle("Spending Range of Customer Demographic", "Over age group") +
   xlab("Age Group") +
   ylab("Customer Spending (Rupees)") +
   theme(plot.title = element_text(size = 20),
