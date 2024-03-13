@@ -215,8 +215,7 @@ customer's demographics affect how much they will spend. To do this, a second
 dataset was generated using the `group_by` function according to `User_ID` and
 `Age`. This is because a customer can have multiple purchases. Additionally, the
 changing ages for a customer suggests that the dataset covers transactions over
-several years. Because several column values such as `Occupation` have different
-entries for the same customer, it is prudent to assess the same customer with
+several years. It is prudent to assess the same customer with
 differing ages as separate transactions to more accurately analyze the effect
 of the demographic on `Amount`.
 

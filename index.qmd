@@ -50,7 +50,9 @@ data repository. The .csv spans multiple years and contains 13 variables and
 multiple festivals. Of the transactions, 12 transactions did not have
 information regarding the transaction amount and are excluded from the data.
 Information for customers under the age of 18 were also excluded due to a
-significant number of nonsensical entries.
+significant number of nonsensical entries such as a 12 year old customer working
+for the government or spending 40000 rupees for a single food item. After
+exclusions, 10943 transactions remained for analysis.
 
 ```{r}
 #| label: dataset-table

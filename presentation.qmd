@@ -64,16 +64,13 @@ knitr::opts_chunk$set(
 
 ## Dataset Description
 
--   Diwali festival transactional data collected across years
+-   Diwali transactional data
 
--   Sourced from 2023 TidyTuesday data repository
-
--   Contains 13 variables and 11251 transactions
+-   13 variables and 11251 transactions
 
 -   A customer can have multiple transactions and ages
 
--   Variables utilized for the analysis include customer ID, age, age group,
-gender, marital status, product category, order size, and amount spent
+-   Variables utilized: customer ID, age, age group, gender, marital status, product category, order size, and amount spent
 
 ## Question 1: Motivation
 
@@ -339,6 +336,20 @@ Married Men
 # Display the table
 married_table
 ```
+
+## Summary
+
+-   Single female customers were the largest customer demographic in all categories
+
+-   Price of order does not appear to have a confounding effect
+
+-   Age group does not appear to have an effect on total spending
+
+-   Female customer spending is affected by age
+
+-   Male customer spending is not significantly affected by age
+
+-   Marital status does not affect total spending despite effect on number of transactions
 
 ## Limitations
 
