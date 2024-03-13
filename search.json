@@ -214,7 +214,7 @@
     "href": "presentation.html#summary",
     "title": "Diwali Sales Trend Analysis",
     "section": "Summary",
-    "text": "Summary\n\nSingle female customers were the largest customer demographic in all categories\nAge group does not appear to have an effect on total spending\nFemale customer spending is affected by age\nMale customer spending is not significantly affected by age\nMarital status does not affect total spending despite effect on number of transactions"
+    "text": "Summary\n\nSingle female customers were the largest customer demographic in all categories\nPrice of order does not appear to have a confounding effect\nAge group does not appear to have an effect on total spending\nFemale customer spending is affected by age\nMale customer spending is not significantly affected by age\nMarital status does not affect total spending despite effect on number of transactions"
   },
   {
     "objectID": "presentation.html#limitations",
